@@ -7,7 +7,7 @@
     <WebView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.85"
+        android:layout_weight=".85"
         android:id="@+id/webView"
         android:layout_alignParentBottom="true" />
 
@@ -16,7 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".15"
-        android:text="Vista 2"
-        android:visibility="visible" />
+        android:text="Vista 2" />
 
 </LinearLayout>
