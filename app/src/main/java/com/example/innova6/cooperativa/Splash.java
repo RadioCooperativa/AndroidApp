@@ -3,28 +3,27 @@ package com.example.innova6.cooperativa;
 /**
  * Created by innova6 on 06-04-2016.
  */
+
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
 public class Splash extends Activity {
-    ProgressBar progressbar;
+    //ProgressBar progressbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.splash);
-        progressbar = (ProgressBar) findViewById(R.id.mi_loading_splash);
+        //progressbar = (ProgressBar) findViewById(R.id.mi_loading_splash);
         new Sincronico(this).execute();
     }
 
@@ -51,13 +50,12 @@ public class Splash extends Activity {
         }
         @Override
         protected void onProgressUpdate(Integer... values) {
-            int progreso = values[0].intValue();
-            progressbar.setProgress(progreso);
+            //int progreso = values[0].intValue();
+          //  progressbar.setProgress(progreso);
         }
         @Override
         protected void onPreExecute() {
-            progressbar.setMax(100);
-            progressbar.setProgress(0);
+
         }
         @Override
         protected void onPostExecute(Boolean result) {
@@ -71,4 +69,5 @@ public class Splash extends Activity {
             Toast.makeText(Splash.this, "Tarea cancelada!", Toast.LENGTH_SHORT).show();
         }
     }
+
 }
