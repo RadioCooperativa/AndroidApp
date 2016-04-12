@@ -21,13 +21,14 @@ public class MainActivity extends Activity  {
     ImageView buttonStop;
     public String lk;
     public static boolean flag = false;
+
     //Declaración de las tareas ejecutadas en segundo plano
     //tarea1-> inicialización del player al cargar el activity
     private MiTareaAsincrona tarea1;
+
     //tarea2-> mostrar loading al cargar url del mplayer
     private MiTareaAsincrona_2 tarea2;
 
-    //tarea3-> carga webview
     String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class MainActivity extends Activity  {
         buttonStop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (mPlayer != null && mPlayer.isPlaying()) {
-                    // mPlayer.stop();
+
                     mPlayer.pause();
                    // buttonPlay.setVisibility(View.VISIBLE);
                     //buttonStop.setVisibility(View.INVISIBLE);
@@ -89,14 +90,13 @@ public class MainActivity extends Activity  {
         }
         @Override
         protected Boolean doInBackground(Void... params) {
-            //            Toast.makeText(getApplicationContext(), "Ya cargó!!", Toast.LENGTH_LONG).show();
-            // mPlayer.start();
+
             try {
                 mPlayer.reset();
                 mPlayer.setDataSource(url);
                 mPlayer.prepare();
                 mPlayer.start();
-                //prueba de Git comentando el codigo
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -135,11 +135,11 @@ public class MainActivity extends Activity  {
         lk= "http://m.cooperativa.cl";
         //Log.i("La url ", "es: " + lk);
         final WebView myWebView;
-       // myWebView = new WebView(this);
+
         myWebView = (WebView)findViewById(R.id.webView);
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.loadUrl(lk);
-       // setContentView(myWebView);
+
         myWebView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
                 if (url.contains("#") && flag == false) {

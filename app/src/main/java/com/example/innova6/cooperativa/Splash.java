@@ -19,7 +19,7 @@ import com.larvalabs.svgandroid.SVGParser;
 
 
 public class Splash extends Activity {
-    //ProgressBar progressbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +41,13 @@ public class Splash extends Activity {
          // Get a drawable from the parsed SVG and set it as the drawable for the ImageView
 
         imageView.setImageDrawable(svg.createPictureDrawable());
+
         imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         // Set the ImageView as the content view for the Activity
         setContentView(imageView);
+
+
         new Sincronico(this).execute();
     }
 
@@ -63,7 +66,7 @@ public class Splash extends Activity {
         protected Boolean doInBackground(Void... params) {
             for(int i=1; i<=3; i++) {
                 tareaLarga();
-               // publishProgress(i*20);
+
                 if(isCancelled())
                     break;
             }
