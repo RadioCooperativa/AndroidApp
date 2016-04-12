@@ -8,50 +8,53 @@
     <WebView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.85"
+        android:layout_weight="1"
         android:id="@+id/webView"
         android:layout_alignParentBottom="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.15">
+        android:layout_weight="0.10"
+        android:orientation="vertical"
+        android:id="@+id/lnly_barra_player">
 
-        <ImageView
-            android:id="@+id/imageView4"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.0125"
-            android:src="@drawable/logo"
-            android:layout_marginTop="5dp" />
+            android:layout_height="match_parent"
+            android:layout_weight="0.5">
 
-        <ImageView
-            android:id="@+id/play"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.0490"
-            android:src="@drawable/play"
-            android:layout_marginLeft="5dp"
-            android:adjustViewBounds="false"
-            android:clickable="false" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.10"
+                android:src="@drawable/barrainferior"
+                android:id="@+id/binferior" />
 
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:id="@+id/play"
+                android:src="@drawable/play"
+                android:layout_marginLeft="25dp" />
 
-        <ImageView
-            android:id="@+id/stop"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.0490"
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:id="@+id/pause"
+                android:src="@drawable/pause"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="25dp" />
 
-            android:src="@drawable/pause"
-            android:layout_marginLeft="5dp"
-            />
+            <ProgressBar
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:id="@+id/progressBar"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="25dp" />
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.0500"
-            android:src="@drawable/equalizer"
-            android:layout_marginLeft="5dp" />
+        </FrameLayout>
+
     </LinearLayout>
    </LinearLayout>

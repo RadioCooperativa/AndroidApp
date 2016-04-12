@@ -11,6 +11,8 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import java.io.IOException;
 
@@ -18,7 +20,9 @@ import java.io.IOException;
 public class MainActivity extends Activity  {
     static MediaPlayer mPlayer;
     ImageView buttonPlay;
-    ImageView buttonStop;
+    ImageView buttonPause;
+    LinearLayout lnly_barra_player;
+    ProgressBar pgrbarr;
     public String lk;
     public static boolean flag = false;
 
@@ -33,10 +37,21 @@ public class MainActivity extends Activity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         buttonPlay = (ImageView) findViewById(R.id.play);
-        buttonStop = (ImageView) findViewById(R.id.stop);
+        buttonPause = (ImageView) findViewById(R.id.pause);
+        pgrbarr=(ProgressBar) findViewById(R.id.progressBar);
+
+        buttonPause.setVisibility(View.INVISIBLE);
+        buttonPlay.setVisibility(View.INVISIBLE);
+        pgrbarr.setVisibility(View.VISIBLE);
+
+
+        //Se define para agregar imagen SVG de barra en caso de telefonos con S.O > API 11
+        lnly_barra_player=(LinearLayout) findViewById(R.id.lnly_barra_player);
+
 
         populateWebView();
 
@@ -50,23 +65,23 @@ public class MainActivity extends Activity  {
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                pgrbarr.setVisibility(View.VISIBLE);
+                buttonPlay.setVisibility(View.INVISIBLE);
                 tarea1 = new MiTareaAsincrona();
                 tarea1.execute();
-                //progressbar.setVisibility(View.VISIBLE);
-               // buttonPlay.setVisibility(View.INVISIBLE);
-               // buttonStop.setVisibility(View.VISIBLE);
+
             }
         });
 
         //Bloque de codigo para el streaming al presionar pause
-        buttonStop.setOnClickListener(new View.OnClickListener() {
+        buttonPause.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                buttonPause.setVisibility(View.INVISIBLE);
+                buttonPlay.setVisibility(View.VISIBLE);
                 if (mPlayer != null && mPlayer.isPlaying()) {
 
                     mPlayer.pause();
-                   // buttonPlay.setVisibility(View.VISIBLE);
-                    //buttonStop.setVisibility(View.INVISIBLE);
+
                 }
             }
         });
@@ -75,14 +90,17 @@ public class MainActivity extends Activity  {
     public class MiTareaAsincrona extends AsyncTask<Void, Integer, Boolean> {
         @Override
         protected void onPreExecute() {
+
         }
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-
+            pgrbarr.setVisibility(View.INVISIBLE);
+            buttonPause.setVisibility(View.VISIBLE);
         }
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
+
         }
         @Override
         protected void onCancelled() {
@@ -109,6 +127,9 @@ public class MainActivity extends Activity  {
         }
         @Override
         protected void onPostExecute(Boolean aBoolean) {
+            buttonPlay.setVisibility(View.INVISIBLE);
+            buttonPause.setVisibility(View.VISIBLE);
+            pgrbarr.setVisibility(View.INVISIBLE);
         }
         @Override
         protected void onProgressUpdate(Integer... values) {
