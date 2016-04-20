@@ -6,13 +6,19 @@ import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+
+import com.larvalabs.svgandroid.SVG;
+import com.larvalabs.svgandroid.SVGParser;
 
 import java.io.IOException;
 
@@ -21,12 +27,13 @@ public class MainActivity extends Activity  {
     static MediaPlayer mPlayer;
     ImageView buttonPlay;
     ImageView buttonPause;
-    LinearLayout lnly_barra_player;
+
     ProgressBar pgrbarr;
     public String lk;
     public static boolean flag = false;
 
-    //Declaración de las tareas ejecutadas en segundo plano
+    //*******Declaración de las tareas ejecutadas en segundo plano*****//
+
     //tarea1-> inicialización del player al cargar el activity
     private MiTareaAsincrona tarea1;
 
@@ -50,8 +57,39 @@ public class MainActivity extends Activity  {
 
 
         //Se define para agregar imagen SVG de barra en caso de telefonos con S.O > API 11
-        lnly_barra_player=(LinearLayout) findViewById(R.id.lnly_barra_player);
+       // lnly_barra_player=(LinearLayout) findViewById(R.id.lnly_barra_player);
+        if (android.os.Build.VERSION.SDK_INT>=11) {
 
+            ImageView imageView = (ImageView) findViewById(R.id.binferior);//imageview de barra inferior
+            ImageView imageView_play= (ImageView) findViewById(R.id.play);//imageview de boton play
+            ImageView imageView_pause= (ImageView) findViewById(R.id.pause);//imageview de boton pause
+
+            SVG homeSvg = SVGParser.getSVGFromResource(getResources(), R.raw.rep);
+            SVG homeSvg_play = SVGParser.getSVGFromResource(getResources(), R.raw.play);
+            SVG homeSvg_pause = SVGParser.getSVGFromResource(getResources(), R.raw.pause);
+
+           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {   }*/
+
+                imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                imageView_play.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                imageView_pause.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
+
+            imageView.setScaleType(ImageView.ScaleType.FIT_START);
+            imageView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            //imageView.setAdjustViewBounds(true);
+
+            imageView.setImageDrawable(homeSvg.createPictureDrawable());
+
+
+            imageView_play.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView_play.setAdjustViewBounds(true);
+            imageView_play.setImageDrawable(homeSvg_play.createPictureDrawable());
+
+            imageView_pause.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView_pause.setAdjustViewBounds(true);
+            imageView_pause.setImageDrawable(homeSvg_pause.createPictureDrawable());
+        }
 
         populateWebView();
 
@@ -79,7 +117,6 @@ public class MainActivity extends Activity  {
                 buttonPause.setVisibility(View.INVISIBLE);
                 buttonPlay.setVisibility(View.VISIBLE);
                 if (mPlayer != null && mPlayer.isPlaying()) {
-
                     mPlayer.pause();
 
                 }
@@ -108,7 +145,6 @@ public class MainActivity extends Activity  {
         }
         @Override
         protected Boolean doInBackground(Void... params) {
-
             try {
                 mPlayer.reset();
                 mPlayer.setDataSource(url);
@@ -213,5 +249,22 @@ public class MainActivity extends Activity  {
             alert.show();
         }
 
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.activity_main, container, false);
+        ImageView imageView = (ImageView) v.findViewById(R.id.binferior);
+
+        SVG homeSvg = SVGParser.getSVGFromString(getResources().getString(R.raw.rep));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        imageView.setAdjustViewBounds(true);
+        imageView.setImageDrawable(homeSvg.createPictureDrawable());
+
+        return v;
     }
 }
