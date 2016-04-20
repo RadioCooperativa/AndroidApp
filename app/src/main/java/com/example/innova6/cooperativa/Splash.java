@@ -6,11 +6,10 @@ package com.example.innova6.cooperativa;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -19,33 +18,25 @@ import com.larvalabs.svgandroid.SVGParser;
 
 
 public class Splash extends Activity {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
+
         super.onCreate(savedInstanceState);
 
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+      //  requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.splash);
 
         if (android.os.Build.VERSION.SDK_INT>=11) {
 
-            // Create a new ImageView
-            ImageView imageView = new ImageView(this);
-
-            // Set the background color to white
-            imageView.setBackgroundColor(Color.WHITE);
-
-            // Parse the SVG file from the resource
-            SVG svg = SVGParser.getSVGFromResource(getResources(), R.raw.cooperativacllogo);
-            // Get a drawable from the parsed SVG and set it as the drawable for the ImageView
-
-            imageView.setImageDrawable(svg.createPictureDrawable());
+            ImageView imageView = (ImageView) findViewById(R.id.imageView_splash);//imageview de splash
+            SVG homeSvg = SVGParser.getSVGFromResource(getResources(), R.raw.cooperativacllogo);
 
             imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            // Set the ImageView as the content view for the Activity
-            setContentView(imageView);
+           // imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setAdjustViewBounds(true);
+            imageView.setImageDrawable(homeSvg.createPictureDrawable());
+
         }else {
             setContentView(R.layout.splash);
         }

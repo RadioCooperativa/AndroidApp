@@ -4,10 +4,12 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal">
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/imageView_splash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/background"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="false"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" />
    </RelativeLayout>

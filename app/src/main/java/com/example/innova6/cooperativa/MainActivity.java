@@ -3,14 +3,12 @@ package com.example.innova6.cooperativa;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -43,6 +41,7 @@ public class MainActivity extends Activity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// evita que se gire la pantalla
 
         setContentView(R.layout.activity_main);
 
@@ -67,19 +66,13 @@ public class MainActivity extends Activity  {
             SVG homeSvg_play = SVGParser.getSVGFromResource(getResources(), R.raw.play);
             SVG homeSvg_pause = SVGParser.getSVGFromResource(getResources(), R.raw.pause);
 
-           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {   }*/
-
-                imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                imageView_play.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                imageView_pause.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
-
+            imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            imageView_play.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            imageView_pause.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-           //imageView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView_play.setAdjustViewBounds(true);
+           // imageView_play.setAdjustViewBounds(true);
             imageView.setImageDrawable(homeSvg.createPictureDrawable());
-
 
             imageView_play.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView_play.setAdjustViewBounds(true);
@@ -250,20 +243,4 @@ public class MainActivity extends Activity  {
 
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View v = inflater.inflate(R.layout.activity_main, container, false);
-        ImageView imageView = (ImageView) v.findViewById(R.id.binferior);
-
-        SVG homeSvg = SVGParser.getSVGFromString(getResources().getString(R.raw.rep));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        imageView.setAdjustViewBounds(true);
-        imageView.setImageDrawable(homeSvg.createPictureDrawable());
-
-        return v;
-    }
 }
