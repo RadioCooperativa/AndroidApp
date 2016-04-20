@@ -24,7 +24,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0.0dp"
-            android:layout_weight="0.5">
+            android:layout_weight="0.5"
+            android:id="@+id/framelayout">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -34,25 +35,26 @@
                 android:id="@+id/binferior" />
 
             <ImageView
-                android:layout_width="25dp"
+                android:layout_width="18dp"
                 android:layout_height="match_parent"
                 android:id="@+id/play"
                 android:src="@drawable/play"
-                android:layout_marginLeft="25dp" />
+                android:layout_marginLeft="20dp" />
 
             <ImageView
-                android:layout_width="25dp"
+                android:layout_width="18dp"
                 android:layout_height="match_parent"
                 android:id="@+id/pause"
                 android:src="@drawable/pause"
-                android:layout_marginLeft="25dp" />
+                android:layout_marginLeft="20dp" />
 
             <ProgressBar
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="25dp"
                 android:layout_height="match_parent"
                 android:id="@+id/progressBar"
-                android:layout_marginLeft="25dp" />
+                android:layout_marginLeft="15dp"
+                 />
 
         </FrameLayout>
     </LinearLayout>

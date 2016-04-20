@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -75,10 +74,10 @@ public class MainActivity extends Activity  {
                 imageView_pause.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 
-            imageView.setScaleType(ImageView.ScaleType.FIT_START);
-            imageView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            //imageView.setAdjustViewBounds(true);
 
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+           //imageView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            imageView_play.setAdjustViewBounds(true);
             imageView.setImageDrawable(homeSvg.createPictureDrawable());
 
 
