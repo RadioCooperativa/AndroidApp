@@ -2,10 +2,14 @@ package com.example.innova6.cooperativa;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
@@ -55,20 +60,19 @@ public class MainActivity extends Activity  {
 
 
         //Se define para agregar imagen SVG de barra en caso de telefonos con S.O > API 11
-       // lnly_barra_player=(LinearLayout) findViewById(R.id.lnly_barra_player);
-        if (android.os.Build.VERSION.SDK_INT>=11) {
+               if (android.os.Build.VERSION.SDK_INT>=11) {
 
             ImageView imageView = (ImageView) findViewById(R.id.binferior);//imageview de barra inferior
             ImageView imageView_play= (ImageView) findViewById(R.id.play);//imageview de boton play
             ImageView imageView_pause= (ImageView) findViewById(R.id.pause);//imageview de boton pause
 
-            SVG homeSvg = SVGParser.getSVGFromResource(getResources(), R.raw.rep);
-            SVG homeSvg_play = SVGParser.getSVGFromResource(getResources(), R.raw.play);
-            SVG homeSvg_pause = SVGParser.getSVGFromResource(getResources(), R.raw.pause);
+            SVG homeSvg = SVGParser.getSVGFromResource(getResources(), R.raw.rep); //Parseo de imagen de barra inferior
+            SVG homeSvg_play = SVGParser.getSVGFromResource(getResources(), R.raw.play); //Parseo de imagen de boton play
+            SVG homeSvg_pause = SVGParser.getSVGFromResource(getResources(), R.raw.pause); //Parseo de imagen de boton stop
 
-            imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            imageView_play.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            imageView_pause.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);   //activa la aceleracion de hw
+            imageView_play.setLayerType(View.LAYER_TYPE_SOFTWARE, null); //activa la aceleracion de hw
+            imageView_pause.setLayerType(View.LAYER_TYPE_SOFTWARE, null); //activa la aceleracion de hw
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
            // imageView_play.setAdjustViewBounds(true);
@@ -82,8 +86,10 @@ public class MainActivity extends Activity  {
             imageView_pause.setAdjustViewBounds(true);
             imageView_pause.setImageDrawable(homeSvg_pause.createPictureDrawable());
         }
-
+        /************** Módulos de muestra de webview y validación de conectividad ***************/
         populateWebView();
+        estaConectado();
+        /************** /Módulos de muestra de webview y validación de conectividad ***************/
 
         mPlayer = new MediaPlayer();
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -243,4 +249,61 @@ public class MainActivity extends Activity  {
 
     }
 
+    protected Boolean conectadoWifi(){
+        ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo info = connectivity.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if (info != null) {
+                if (info.isConnected()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    protected Boolean conectadoRedMovil(){
+        ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo info = connectivity.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            if (info != null) {
+                if (info.isConnected()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    protected Boolean estaConectado(){
+        if(conectadoWifi()){
+           // showAlertDialog(Main.this, "Conexion a Internet",
+                 //   "Tu Dispositivo tiene Conexion a Wifi.", true);
+
+            Toast.makeText(getApplicationContext(), "Conectado a través de Wifi", Toast.LENGTH_LONG).show();
+            return true;
+        }else{
+            if(conectadoRedMovil()){
+                //showAlertDialog(Main.this, "Conexion a Internet",
+                  //      "Tu Dispositivo tiene Conexion Movil.", true);
+
+                Toast.makeText(getApplicationContext(), "Actualmente estás usando tus Datos Móviles, te recomendamos que utilices Wifi", Toast.LENGTH_LONG).show();
+                return true;
+            }else{
+                Toast.makeText(getApplicationContext(), "No posee conectividad", Toast.LENGTH_LONG).show();
+               /* Intent intent = new Intent(this, SinConexion.class);
+                startActivity(intent);*/
+                Intent myIntent = new Intent(MainActivity.this, SinConexion.class);
+                startActivityForResult(myIntent, 0);
+                return false;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == 0) {
+            finish();
+        }
+    }
 }
