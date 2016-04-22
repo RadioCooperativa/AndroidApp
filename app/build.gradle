@@ -6,7 +6,9 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 23
-        versionName '3.5'
+        versionName '4'
+        versionCode 4
+        applicationId 'app.cooperativa.cl'
     }
     buildTypes {
         release {
