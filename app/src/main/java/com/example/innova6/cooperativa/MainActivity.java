@@ -48,6 +48,9 @@ public class MainActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// evita que se gire la pantalla
 
+
+
+
         setContentView(R.layout.activity_main);
 
         buttonPlay = (ImageView) findViewById(R.id.play);
