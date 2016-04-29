@@ -55,8 +55,8 @@
                 android:layout_marginLeft="15dp"
                 android:color="#145899"
                  />
-
         </FrameLayout>
+
     </LinearLayout>
    </LinearLayout>
 

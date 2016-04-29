@@ -1,4 +1,5 @@
 package com.example.innova6.cooperativa;
+/*Desarrollado por Rodrigo A Vargas Sanhueza para Radio Cooperativa - Abril del 2016*/
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -280,17 +281,17 @@ public class MainActivity extends Activity  {
            // showAlertDialog(Main.this, "Conexion a Internet",
                  //   "Tu Dispositivo tiene Conexion a Wifi.", true);
 
-            Toast.makeText(getApplicationContext(), "Conectado a través de Wifi", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Estás conectado a través de Wifi", Toast.LENGTH_LONG).show();
             return true;
         }else{
             if(conectadoRedMovil()){
                 //showAlertDialog(Main.this, "Conexion a Internet",
                   //      "Tu Dispositivo tiene Conexion Movil.", true);
 
-                Toast.makeText(getApplicationContext(), "Actualmente estás usando tus Datos Móviles, te recomendamos que utilices Wifi", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Actualmente estás usando tus datos móviles. Te recomendamos utilizar Wifi", Toast.LENGTH_LONG).show();
                 return true;
             }else{
-                Toast.makeText(getApplicationContext(), "No posee conectividad", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "No tienes conectividad a internet. Para usar la aplicación necesitas estar conectado", Toast.LENGTH_LONG).show();
                /* Intent intent = new Intent(this, SinConexion.class);
                 startActivity(intent);*/
                 Intent myIntent = new Intent(MainActivity.this, SinConexion.class);
