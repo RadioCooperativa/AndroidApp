@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
+import com.winsontan520.wversionmanager.library.OnReceiveListener;
+import com.winsontan520.wversionmanager.library.WVersionManager;
 
 import java.io.IOException;
 
@@ -48,6 +50,30 @@ public class MainActivity extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// evita que se gire la pantalla
+
+
+        //*******Aplicación de Libreria WVersionManager para comprobación de actualizaciones e informar al usuario*****//
+        WVersionManager versionManager = new WVersionManager(this);
+        versionManager.setVersionContentUrl("http://especiales2.cooperativa.cl/2016/pruebas/rvargas_test/actualiza_app.json");
+        versionManager.checkVersion();
+
+        versionManager.setUpdateNowLabel("Si, Actualizar Ahora");
+        versionManager.setRemindMeLaterLabel("No, Recuérdame más Tarde");
+        versionManager.setIgnoreThisVersionLabel("No en este momento");
+        //versionManager.setUpdateUrl("http://your_app_url"); // this is the link will execute when update now clicked. default will go to google play based on your package name.
+        versionManager.setReminderTimer(10); // this mean checkVersion() will not take effect within 10 minutes
+
+        versionManager.setOnReceiveListener(new OnReceiveListener() {
+            @Override
+            public boolean onReceive(int status, String result) {
+                // implement your own compare logic here
+                return false; // return true if you want to use library's default logic & dialog
+            }
+        });
+
+
+        //******* /Aplicación de Libreria WVersionManager para comprobación de actualizaciones e informar al usuario*****//
+
 
         setContentView(R.layout.activity_main);
 
