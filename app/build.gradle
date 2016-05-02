@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 23
-        versionName '3.4'
-        versionCode 34
+        versionName '3.4.1'
+        versionCode 341
         applicationId 'com.ejemplo.cooperativa'
     }
     buildTypes {

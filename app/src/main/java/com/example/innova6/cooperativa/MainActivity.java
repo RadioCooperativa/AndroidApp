@@ -60,7 +60,7 @@ public class MainActivity extends Activity  {
         versionManager.setUpdateNowLabel("Si, Actualizar Ahora");
         versionManager.setRemindMeLaterLabel("No, Recuérdame más Tarde");
         versionManager.setIgnoreThisVersionLabel("No en este momento");
-        versionManager.setUpdateUrl("https://play.google.com/store/apps/details?id=com.ejemplo.cooperativa"); // this is the link will execute when update now clicked. default will go to google play based on your package name.
+        versionManager.setUpdateUrl("https://play.google.com/apps/testing/com.ejemplo.cooperativa"); // this is the link will execute when update now clicked. default will go to google play based on your package name.
         versionManager.setReminderTimer(1); // this mean checkVersion() will not take effect within 10 minutes
 
         versionManager.setOnReceiveListener(new OnReceiveListener() {
