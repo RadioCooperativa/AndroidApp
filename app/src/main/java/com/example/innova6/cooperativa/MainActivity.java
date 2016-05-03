@@ -45,7 +45,7 @@ public class MainActivity extends Activity  {
     //tarea2-> mostrar loading al cargar url del mplayer
     private MiTareaAsincrona_2 tarea2;
 
-    String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
+    String url = "http://unlimited1-us.digitalproserver.com/cooperativafm/mp3/icecast.audio";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +56,9 @@ public class MainActivity extends Activity  {
         WVersionManager versionManager = new WVersionManager(this);
         versionManager.setVersionContentUrl("http://especiales2.cooperativa.cl/2016/pruebas/rvargas_test/actualiza_app.json");//archivo en servidor de radio, en donde se encuentran ls datos de la varios
         versionManager.checkVersion();
+
+        Toast.makeText(getApplicationContext(), "Versión 3.4.3 con url de beta en setUpdateUrl", Toast.LENGTH_LONG).show();
+
 
         versionManager.setUpdateNowLabel("Si, Actualizar Ahora");
         versionManager.setRemindMeLaterLabel("No, Recuérdame más Tarde");
