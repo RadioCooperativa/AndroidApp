@@ -43,7 +43,7 @@ public class MainActivity extends Activity  {
     //tarea2-> mostrar loading al cargar url del mplayer
     private MiTareaAsincrona_2 tarea2;
 
-    String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
+    String url = "http://unlimited1-us.digitalproserver.com/cooperativafm/mp3/icecast.audio";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,11 +71,11 @@ public class MainActivity extends Activity  {
             SVG homeSvg_play = SVGParser.getSVGFromResource(getResources(), R.raw.play); //Parseo de imagen de boton play
             SVG homeSvg_pause = SVGParser.getSVGFromResource(getResources(), R.raw.pause); //Parseo de imagen de boton stop
 
-            imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);   //activa la aceleracion de hw
+                   imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);   //activa la aceleracion de hw
             imageView_play.setLayerType(View.LAYER_TYPE_SOFTWARE, null); //activa la aceleracion de hw
             imageView_pause.setLayerType(View.LAYER_TYPE_SOFTWARE, null); //activa la aceleracion de hw
 
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                   imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
            // imageView_play.setAdjustViewBounds(true);
             imageView.setImageDrawable(homeSvg.createPictureDrawable());
 
