@@ -30,6 +30,7 @@ dependencies {
     compile files('libs/svg-android.jar')
     compile files('libs/svg2android.jar')
     compile files('wversionmanager-1.3.jar')
+    compile 'com.google.android.gms:play-services:7.5.0'
 }
 
 
