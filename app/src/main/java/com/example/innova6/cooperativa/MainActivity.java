@@ -218,7 +218,7 @@ public class MainActivity extends Activity  {
     }
     private void populateWebView() {
         // lk= "http://m.cooperativa.cl";
-       lk="http://especiales2.cooperativa.cl/2016/pruebas/rodolfo/app/app-agent.html";
+       lk="http://especiales2.cooperativa.cl/2016/pruebas/fhuerta/app-agent.php";
         //Log.i("La url ", "es: " + lk);
         final WebView myWebView;
 
