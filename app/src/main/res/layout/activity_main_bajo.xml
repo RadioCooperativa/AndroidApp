@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/webView"
+        android:layout_alignParentBottom="true"
+        android:padding="0dp"
+        android:paddingLeft="0dp"
+        android:layout_gravity="top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.0dp"
+        android:layout_weight="0.09"
+        android:orientation="vertical"
+        android:id="@+id/lnly_barra_player">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/framelayout">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.10"
+                android:src="@drawable/barrainferior"
+                android:id="@+id/binferior" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="23dp"
+                android:id="@+id/play"
+                android:src="@drawable/play"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="23dp"
+                android:id="@+id/pause"
+                android:src="@drawable/pause"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/rep"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="35dp" />
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:id="@+id/progressBar"
+                android:color="#145899"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp" />
+        </FrameLayout>
+
+    </LinearLayout>
+</LinearLayout>

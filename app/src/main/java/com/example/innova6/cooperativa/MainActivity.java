@@ -49,6 +49,8 @@ public class MainActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// evita que se gire la pantalla
 
+        //Se define para agregar imagen SVG de barra en caso de telefonos con S.O > API 11
+        if (android.os.Build.VERSION.SDK_INT>=11) {
         setContentView(R.layout.activity_main);
 
         buttonPlay = (ImageView) findViewById(R.id.play);
@@ -60,8 +62,7 @@ public class MainActivity extends Activity  {
         pgrbarr.setVisibility(View.VISIBLE);
 
 
-        //Se define para agregar imagen SVG de barra en caso de telefonos con S.O > API 11
-               if (android.os.Build.VERSION.SDK_INT>=11) {
+
 
             ImageView imageView = (ImageView) findViewById(R.id.binferior);//imageview de barra inferior
             ImageView imageView_play= (ImageView) findViewById(R.id.play);//imageview de boton play
@@ -71,11 +72,11 @@ public class MainActivity extends Activity  {
             SVG homeSvg_play = SVGParser.getSVGFromResource(getResources(), R.raw.play); //Parseo de imagen de boton play
             SVG homeSvg_pause = SVGParser.getSVGFromResource(getResources(), R.raw.pause); //Parseo de imagen de boton stop
 
-                   imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);   //activa la aceleracion de hw
+            imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);   //activa la aceleracion de hw
             imageView_play.setLayerType(View.LAYER_TYPE_SOFTWARE, null); //activa la aceleracion de hw
             imageView_pause.setLayerType(View.LAYER_TYPE_SOFTWARE, null); //activa la aceleracion de hw
 
-                   imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
            // imageView_play.setAdjustViewBounds(true);
             imageView.setImageDrawable(homeSvg.createPictureDrawable());
 
@@ -86,6 +87,16 @@ public class MainActivity extends Activity  {
             imageView_pause.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView_pause.setAdjustViewBounds(true);
             imageView_pause.setImageDrawable(homeSvg_pause.createPictureDrawable());
+        }else{
+            setContentView(R.layout.activity_main_bajo);
+
+            buttonPlay = (ImageView) findViewById(R.id.play);
+            buttonPause = (ImageView) findViewById(R.id.pause);
+            pgrbarr=(ProgressBar) findViewById(R.id.progressBar);
+
+            buttonPause.setVisibility(View.INVISIBLE);
+            buttonPlay.setVisibility(View.INVISIBLE);
+            pgrbarr.setVisibility(View.VISIBLE);
         }
         /************** Módulos de muestra de webview y validación de conectividad ***************/
         populateWebView();
