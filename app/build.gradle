@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 23
-        versionName '3.5.4'
-        versionCode 354
+        versionName '3.5.6'
+        versionCode 356
         applicationId 'cl.android.app'
     }
     buildTypes {
