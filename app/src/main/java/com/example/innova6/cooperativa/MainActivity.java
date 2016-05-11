@@ -61,9 +61,6 @@ public class MainActivity extends Activity  {
         buttonPlay.setVisibility(View.INVISIBLE);
         pgrbarr.setVisibility(View.VISIBLE);
 
-
-
-
             ImageView imageView = (ImageView) findViewById(R.id.binferior);//imageview de barra inferior
             ImageView imageView_play= (ImageView) findViewById(R.id.play);//imageview de boton play
             ImageView imageView_pause= (ImageView) findViewById(R.id.pause);//imageview de boton pause

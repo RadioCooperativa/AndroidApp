@@ -8,7 +8,7 @@ android {
         targetSdkVersion 23
         versionName '3.5.3'
         versionCode 353
-        applicationId 'com.ejemplo.cooperativa'
+        applicationId 'com.android.app'
     }
     buildTypes {
         release {
