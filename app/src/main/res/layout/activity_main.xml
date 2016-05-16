@@ -5,73 +5,70 @@
     android:orientation="vertical">
 
     <WebView
-        android:layout_width="216dp"
-        android:layout_height="361dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/webView"
         android:layout_alignParentBottom="true"
         android:padding="0dp"
-        android:paddingLeft="0dp" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/framelayout">
-
-    </FrameLayout>
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello"
-        />
+        android:paddingLeft="0dp"
+        android:layout_weight="5" />
 
     <EditText
         android:id="@+id/msg"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_weight="2.55" />
 
     <Button
         android:id="@+id/sendmsg"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Msg to JavaScript"
-        />
+        android:layout_weight="4.27" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/lnly_barra_player">
+        android:id="@+id/lnly_barra_player"
+        android:layout_weight="1">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.12"
-            android:src="@drawable/barrainferior"
-            android:id="@+id/binferior" />
-
-        <ImageView
-            android:layout_width="18dp"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/pause"
-            android:src="@drawable/pause"
-            android:layout_marginLeft="20dp" />
+            android:id="@+id/framelayout"
+            android:layout_weight="0.85">
 
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="match_parent"
-            android:id="@+id/play"
-            android:src="@drawable/play"
-            android:layout_marginLeft="20dp" />
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/pause"
+                android:src="@drawable/pause"
+                android:layout_marginLeft="20dp" />
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="25dp"
-            android:layout_height="match_parent"
-            android:id="@+id/progressBar"
-            android:layout_marginLeft="15dp"
-            android:color="#145899"
-             />
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/play"
+                android:src="@drawable/play"
+                android:layout_marginLeft="20dp" />
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/progressBar"
+                android:layout_marginLeft="15dp"
+                android:color="#145899"
+                 />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/barrainferior"
+                android:id="@+id/binferior" />
+        </FrameLayout>
+
     </LinearLayout>
 
 </LinearLayout>

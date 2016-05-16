@@ -41,6 +41,8 @@ public class MainActivity extends Activity  {
     public String lk;
     public static boolean flag = false;
 
+
+
     //*******Declaración de las tareas ejecutadas en segundo plano*****//
 
     //tarea1-> inicialización del player al cargar el activity
@@ -48,6 +50,10 @@ public class MainActivity extends Activity  {
 
     //tarea2-> mostrar loading al cargar url del mplayer
     private MiTareaAsincrona_2 tarea2;
+
+
+    //tarea3->
+
 
     String url = "http://unlimited1-us.digitalproserver.com/cooperativafm/mp3/icecast.audio";
     @Override
@@ -60,6 +66,12 @@ public class MainActivity extends Activity  {
         buttonPlay = (ImageView) findViewById(R.id.play);
         buttonPause = (ImageView) findViewById(R.id.pause);
         pgrbarr=(ProgressBar) findViewById(R.id.progressBar);
+
+
+
+        myBrowser=(WebView)findViewById(R.id.webView);
+
+
 
         buttonPause.setVisibility(View.INVISIBLE);
         buttonPlay.setVisibility(View.INVISIBLE);
@@ -95,9 +107,13 @@ public class MainActivity extends Activity  {
         }
         /************** Módulos de muestra de webview y validación de conectividad ***************/
         populateWebView();
-        valida_version();
         estaConectado();
         /************** /Módulos de muestra de webview y validación de conectividad ***************/
+
+
+        /*hilo de validacion*/
+       valida_version();
+        /* /hilo de validacion*/
 
         mPlayer = new MediaPlayer();
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -113,7 +129,6 @@ public class MainActivity extends Activity  {
                 buttonPlay.setVisibility(View.INVISIBLE);
                 tarea1 = new MiTareaAsincrona();
                 tarea1.execute();
-
             }
         });
 
@@ -217,41 +232,29 @@ public class MainActivity extends Activity  {
     }
 
     private void valida_version() {
-        // lk= "http://m.cooperativa.cl";
-        lk="http://especiales2.cooperativa.cl/2016/pruebas/fhuerta/app-agent.php";
-        //Log.i("La url ", "es: " + lk);
-        setContentView(R.layout.activity_main);
 
-        myBrowser= (WebView)findViewById(R.id.webView);
-
-        final MyJavaScriptInterface myJavaScriptInterface
-                = new MyJavaScriptInterface(this);
-        myBrowser.addJavascriptInterface(myJavaScriptInterface, "AndroidFunction");
-
+        myBrowser = (WebView)findViewById(R.id.webView);
+        myBrowser.setWebViewClient(new WebViewClient());
         myBrowser.getSettings().setJavaScriptEnabled(true);
-        myBrowser.loadUrl(lk);
+        myBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        myBrowser.getSettings().setDatabaseEnabled(true);
+        myBrowser.loadUrl("http://especiales2.cooperativa.cl/2016/pruebas/fhuerta/app-agent.php");
 
-        Msg = (EditText)findViewById(R.id.msg);
-        btnSendMsg = (Button)findViewById(R.id.sendmsg);
-        btnSendMsg.setOnClickListener(new Button.OnClickListener() {
+
+        myBrowser.setWebViewClient(new WebViewClient() {
 
             @Override
-            public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                String msgToSend = Msg.getText().toString();
-                myBrowser.loadUrl("javascript:callFromActivity(\"" + msgToSend + "\")");
+            public void onPageFinished(WebView view, String url) {
+               // myBrowser.loadUrl("javascript:callFromActivity(\"" + userid + "\")");
 
+                String msgToSend="x";
+                myBrowser.loadUrl("javascript:callFromActivity(\""+msgToSend+"\")");
             }
         });
 
     }
-    public class MyJavaScriptInterface {
-        Context mContext;
-
-        MyJavaScriptInterface(Context c) {
-            mContext = c;
-        }
-
+      protected void onStart(){
+        super.onStart();
     }
     protected void onPause() {
         super.onPause();
@@ -266,7 +269,6 @@ public class MainActivity extends Activity  {
             mPlayer = null;
         }
     }
-
     @Override
     public void onBackPressed() {
         final WebView webView;
@@ -293,9 +295,7 @@ public class MainActivity extends Activity  {
             AlertDialog alert = builder.create();
             alert.show();
         }
-
     }
-
     protected Boolean conectadoWifi(){
         ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
@@ -308,7 +308,6 @@ public class MainActivity extends Activity  {
         }
         return false;
     }
-
     protected Boolean conectadoRedMovil(){
         ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
