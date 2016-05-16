@@ -16,14 +16,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
-import com.winsontan520.wversionmanager.library.OnReceiveListener;
-import com.winsontan520.wversionmanager.library.WVersionManager;
 
 import java.io.IOException;
 
@@ -32,8 +32,12 @@ public class MainActivity extends Activity  {
     static MediaPlayer mPlayer;
     ImageView buttonPlay;
     ImageView buttonPause;
-
     ProgressBar pgrbarr;
+
+    EditText Msg;
+    Button btnSendMsg;
+    WebView myBrowser;
+
     public String lk;
     public static boolean flag = false;
 
@@ -50,33 +54,6 @@ public class MainActivity extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// evita que se gire la pantalla
-
-
-        //*******Aplicación de Libreria WVersionManager para comprobación de actualizaciones e informar al usuario*****//
-        WVersionManager versionManager = new WVersionManager(this);
-        versionManager.setVersionContentUrl("http://especiales2.cooperativa.cl/2016/pruebas/rvargas_test/actualiza_app.json");//archivo en servidor de radio, en donde se encuentran ls datos de la varios
-        versionManager.checkVersion();
-
-       /* Toast.makeText(getApplicationContext(), "Versión 3.4.3 con url de beta en setUpdateUrl", Toast.LENGTH_LONG).show();*/
-
-
-        versionManager.setUpdateNowLabel("Si, Actualizar Ahora");
-        versionManager.setRemindMeLaterLabel("No, Recuérdame más Tarde");
-        versionManager.setIgnoreThisVersionLabel("No en este momento");
-        versionManager.setUpdateUrl("https://play.google.com/apps/testing/com.ejemplo.cooperativa"); // this is the link will execute when update now clicked. default will go to google play based on your package name.
-        versionManager.setReminderTimer(1); // this mean checkVersion() will not take effect within 10 minutes
-
-        versionManager.setOnReceiveListener(new OnReceiveListener() {
-            @Override
-            public boolean onReceive(int status, String result) {
-                // implement your own compare logic here
-                return false; // return true if you want to use library's default logic & dialog
-            }
-        });
-
-
-        //******* /Aplicación de Libreria WVersionManager para comprobación de actualizaciones e informar al usuario*****//
-
 
         setContentView(R.layout.activity_main);
 
@@ -118,6 +95,7 @@ public class MainActivity extends Activity  {
         }
         /************** Módulos de muestra de webview y validación de conectividad ***************/
         populateWebView();
+        valida_version();
         estaConectado();
         /************** /Módulos de muestra de webview y validación de conectividad ***************/
 
@@ -218,7 +196,7 @@ public class MainActivity extends Activity  {
     }
     private void populateWebView() {
         // lk= "http://m.cooperativa.cl";
-       lk="http://especiales2.cooperativa.cl/2016/pruebas/rvargas_test/prueba.php";
+       lk="http://especiales2.cooperativa.cl/2016/pruebas/fhuerta/app-agent.php";
         //Log.i("La url ", "es: " + lk);
         final WebView myWebView;
 
@@ -236,6 +214,44 @@ public class MainActivity extends Activity  {
                 }
             }
         });
+    }
+
+    private void valida_version() {
+        // lk= "http://m.cooperativa.cl";
+        lk="http://especiales2.cooperativa.cl/2016/pruebas/fhuerta/app-agent.php";
+        //Log.i("La url ", "es: " + lk);
+        setContentView(R.layout.activity_main);
+
+        myBrowser= (WebView)findViewById(R.id.webView);
+
+        final MyJavaScriptInterface myJavaScriptInterface
+                = new MyJavaScriptInterface(this);
+        myBrowser.addJavascriptInterface(myJavaScriptInterface, "AndroidFunction");
+
+        myBrowser.getSettings().setJavaScriptEnabled(true);
+        myBrowser.loadUrl(lk);
+
+        Msg = (EditText)findViewById(R.id.msg);
+        btnSendMsg = (Button)findViewById(R.id.sendmsg);
+        btnSendMsg.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                String msgToSend = Msg.getText().toString();
+                myBrowser.loadUrl("javascript:callFromActivity(\"" + msgToSend + "\")");
+
+            }
+        });
+
+    }
+    public class MyJavaScriptInterface {
+        Context mContext;
+
+        MyJavaScriptInterface(Context c) {
+            mContext = c;
+        }
+
     }
     protected void onPause() {
         super.onPause();
