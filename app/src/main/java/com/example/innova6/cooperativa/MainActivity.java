@@ -240,18 +240,14 @@ public class MainActivity extends Activity  {
         myBrowser.getSettings().setDatabaseEnabled(true);
         myBrowser.loadUrl("http://especiales2.cooperativa.cl/2016/pruebas/fhuerta/app-agent.php");
 
-
         myBrowser.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-               // myBrowser.loadUrl("javascript:callFromActivity(\"" + userid + "\")");
-
                 String msgToSend="x";
                 myBrowser.loadUrl("javascript:callFromActivity(\""+msgToSend+"\")");
             }
         });
-
     }
       protected void onStart(){
         super.onStart();
