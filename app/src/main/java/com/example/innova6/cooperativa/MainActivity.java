@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -28,8 +29,9 @@ import java.io.IOException;
 
 public class MainActivity extends Activity  {
     static MediaPlayer mPlayer;
-    ImageView buttonPlay;
-    ImageView buttonPause;
+    ImageButton buttonPlay;
+    ImageButton buttonPause;
+    ImageView par;
 
     ProgressBar pgrbarr;
     public String lk;
@@ -53,12 +55,14 @@ public class MainActivity extends Activity  {
         if (android.os.Build.VERSION.SDK_INT>=11) {
         setContentView(R.layout.activity_main);
 
-        buttonPlay = (ImageView) findViewById(R.id.play);
-        buttonPause = (ImageView) findViewById(R.id.pause);
+        buttonPlay = (ImageButton) findViewById(R.id.play);
+        buttonPause = (ImageButton) findViewById(R.id.pause);
         pgrbarr=(ProgressBar) findViewById(R.id.progressBar);
+
 
         buttonPause.setVisibility(View.INVISIBLE);
         buttonPlay.setVisibility(View.INVISIBLE);
+
         pgrbarr.setVisibility(View.VISIBLE);
 
             ImageView imageView = (ImageView) findViewById(R.id.binferior);//imageview de barra inferior
@@ -87,13 +91,14 @@ public class MainActivity extends Activity  {
         }else{
             setContentView(R.layout.activity_main_bajo);
 
-            buttonPlay = (ImageView) findViewById(R.id.play);
-            buttonPause = (ImageView) findViewById(R.id.pause);
+            buttonPlay = (ImageButton) findViewById(R.id.play);
+            buttonPause = (ImageButton) findViewById(R.id.pause);
             pgrbarr=(ProgressBar) findViewById(R.id.progressBar);
 
             buttonPause.setVisibility(View.INVISIBLE);
             buttonPlay.setVisibility(View.INVISIBLE);
             pgrbarr.setVisibility(View.VISIBLE);
+            par.setVisibility(View. VISIBLE);
         }
         /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
         populateWebView();

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#3656f4">
 
     <WebView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.85"
         android:id="@+id/webView"
         android:layout_alignParentBottom="true"
         android:padding="0dp"
@@ -15,46 +16,47 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0.0dp"
-        android:layout_weight="0.09"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.01"
         android:orientation="vertical"
         android:id="@+id/lnly_barra_player">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0.0dp"
-            android:layout_weight="0.5"
+            android:layout_height="match_parent"
             android:id="@+id/framelayout">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.10"
-                android:src="@drawable/barrainferior"
                 android:id="@+id/binferior" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="match_parent"
+            <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="35dp"
                 android:id="@+id/play"
-                android:src="@drawable/play"
-                android:layout_marginLeft="20dp" />
+                android:background="@null"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="match_parent"
+            <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="35dp"
                 android:id="@+id/pause"
-                android:src="@drawable/pause"
-                android:layout_marginLeft="20dp" />
+                android:background="@null"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp" />
 
             <ProgressBar
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="25dp"
-                android:layout_height="match_parent"
+                android:layout_height="35dp"
                 android:id="@+id/progressBar"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="20dp"
                 android:color="#145899"
-                 />
+                android:layout_marginTop="5dp" />
+
         </FrameLayout>
 
     </LinearLayout>
