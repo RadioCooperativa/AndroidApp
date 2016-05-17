@@ -98,7 +98,7 @@ public class MainActivity extends Activity  {
             buttonPause.setVisibility(View.INVISIBLE);
             buttonPlay.setVisibility(View.INVISIBLE);
             pgrbarr.setVisibility(View.VISIBLE);
-            par.setVisibility(View. VISIBLE);
+            //par.setVisibility(View.VISIBLE);
         }
         /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
         populateWebView();
@@ -223,10 +223,10 @@ public class MainActivity extends Activity  {
 
         final WebView myBrowser;
         myBrowser = (WebView)findViewById(R.id.webView);
-        myBrowser.setWebViewClient(new WebViewClient());
+        //myBrowser.setWebViewClient(new WebViewClient());
         myBrowser.getSettings().setJavaScriptEnabled(true);
-        myBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        myBrowser.getSettings().setDatabaseEnabled(true);
+      //  myBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+       // myBrowser.getSettings().setDatabaseEnabled(true);
         myBrowser.loadUrl("http://especiales2.cooperativa.cl/2016/pruebas/fhuerta/app-agent.php");
 
         myBrowser.setWebViewClient(new WebViewClient() {

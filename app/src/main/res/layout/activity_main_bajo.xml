@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical">
 
     <WebView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="0.85"
         android:id="@+id/webView"
         android:layout_alignParentBottom="true"
         android:padding="0dp"
-        android:paddingLeft="0dp"
-        android:layout_gravity="top" />
+        android:paddingLeft="0dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0.0dp"
-        android:layout_weight="0.09"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.01"
         android:orientation="vertical"
         android:id="@+id/lnly_barra_player">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0.0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:id="@+id/framelayout">
 
             <ImageView
@@ -34,34 +32,36 @@
                 android:src="@drawable/barrainferior"
                 android:id="@+id/binferior" />
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="23dp"
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:id="@+id/play"
-                android:src="@drawable/play"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="15dp"
+                android:src="@android:drawable/ic_media_play"
+                android:background="@null"
+                android:layout_gravity="center_vertical" />
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="23dp"
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:id="@+id/pause"
-                android:src="@drawable/pause"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="15dp"
+                android:src="@android:drawable/ic_media_pause"
+                android:background="@null" />
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/imageView"
                 android:src="@drawable/rep"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="35dp" />
+                android:layout_marginLeft="40dp" />
 
             <ProgressBar
                 style="?android:attr/progressBarStyleSmall"
-                android:layout_width="23dp"
-                android:layout_height="23dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:id="@+id/progressBar"
                 android:color="#145899"
                 android:layout_gravity="center_vertical"
