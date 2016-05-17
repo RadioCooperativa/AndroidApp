@@ -95,10 +95,11 @@ public class MainActivity extends Activity  {
             buttonPlay.setVisibility(View.INVISIBLE);
             pgrbarr.setVisibility(View.VISIBLE);
         }
-        /************** Módulos de muestra de webview y validación de conectividad ***************/
+        /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
         populateWebView();
+        valida_version();
         estaConectado();
-        /************** /Módulos de muestra de webview y validación de conectividad ***************/
+        /************** /Módulos de muestra de webview validación de conectividad y validación de versión app***************/
 
         mPlayer = new MediaPlayer();
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -117,7 +118,6 @@ public class MainActivity extends Activity  {
 
             }
         });
-
         //Bloque de codigo para el streaming al presionar pause
         buttonPause.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -125,12 +125,10 @@ public class MainActivity extends Activity  {
                 buttonPlay.setVisibility(View.VISIBLE);
                 if (mPlayer != null && mPlayer.isPlaying()) {
                     mPlayer.pause();
-
                 }
             }
         });
     }
-
     public class MiTareaAsincrona extends AsyncTask<Void, Integer, Boolean> {
         @Override
         protected void onPreExecute() {
@@ -215,6 +213,25 @@ public class MainActivity extends Activity  {
             }
         });
     }
+
+    private void valida_version() {
+
+        final WebView myBrowser;
+        myBrowser = (WebView)findViewById(R.id.webView);
+        myBrowser.setWebViewClient(new WebViewClient());
+        myBrowser.getSettings().setJavaScriptEnabled(true);
+        myBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        myBrowser.getSettings().setDatabaseEnabled(true);
+        myBrowser.loadUrl("http://especiales2.cooperativa.cl/2016/pruebas/fhuerta/app-agent.php");
+
+        myBrowser.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                String msgToSend = "x";
+                myBrowser.loadUrl("javascript:callFromActivity(\"" + msgToSend + "\")");
+            }
+        });
+    }
     protected void onPause() {
         super.onPause();
     }
@@ -255,9 +272,7 @@ public class MainActivity extends Activity  {
             AlertDialog alert = builder.create();
             alert.show();
         }
-
     }
-
     protected Boolean conectadoWifi(){
         ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
