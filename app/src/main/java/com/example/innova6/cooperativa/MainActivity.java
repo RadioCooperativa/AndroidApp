@@ -31,7 +31,7 @@ public class MainActivity extends Activity  {
     static MediaPlayer mPlayer;
     ImageButton buttonPlay;
     ImageButton buttonPause;
-    ImageView par;
+
 
     ProgressBar pgrbarr;
     public String lk;
@@ -102,7 +102,7 @@ public class MainActivity extends Activity  {
         }
         /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
         populateWebView();
-        valida_version();
+       // valida_version();
         estaConectado();
         /************** /Módulos de muestra de webview validación de conectividad y validación de versión app***************/
 
@@ -204,11 +204,16 @@ public class MainActivity extends Activity  {
         final WebView myWebView;
 
         myWebView = (WebView)findViewById(R.id.webView);
+        myWebView.setWebViewClient(new WebViewClient());
+
         myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         myWebView.loadUrl(lk);
 
         myWebView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
+                String msgToSend = "x";
+                myWebView.loadUrl("javascript:callFromActivity(\"" + msgToSend + "\")");
                 if (url.contains("#") && flag == false) {
                     myWebView.loadUrl(url);
                     flag = true;
@@ -223,11 +228,11 @@ public class MainActivity extends Activity  {
 
         final WebView myBrowser;
         myBrowser = (WebView)findViewById(R.id.webView);
-        //myBrowser.setWebViewClient(new WebViewClient());
+        myBrowser.setWebViewClient(new WebViewClient());
         myBrowser.getSettings().setJavaScriptEnabled(true);
-      //  myBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-       // myBrowser.getSettings().setDatabaseEnabled(true);
-        myBrowser.loadUrl("http://especiales2.cooperativa.cl/2016/pruebas/fhuerta/app-agent.php");
+        myBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        myBrowser.getSettings().setDatabaseEnabled(true);
+        myBrowser.loadUrl("http://m.cooperativa.cl");
 
         myBrowser.setWebViewClient(new WebViewClient() {
             @Override
