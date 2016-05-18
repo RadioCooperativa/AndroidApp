@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -32,9 +33,11 @@ public class MainActivity extends Activity  {
     ImageButton buttonPlay;
     ImageButton buttonPause;
 
+    WebView myWebView;
+
 
     ProgressBar pgrbarr;
-    public String lk;
+    public String lk= "http://m.cooperativa.cl";
     public static boolean flag = false;
 
     //*******Declaración de las tareas ejecutadas en segundo plano*****//
@@ -45,11 +48,20 @@ public class MainActivity extends Activity  {
     //tarea2-> mostrar loading al cargar url del mplayer
     private MiTareaAsincrona_2 tarea2;
 
+    private MiTareaAsincrona_3 tarea3;
+
+    private MiTareaAsincrona_4 tarea4;
+
     String url = "http://unlimited1-us.digitalproserver.com/cooperativafm/mp3/icecast.audio";
-    @Override
+
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// evita que se gire la pantalla
+
+
+        myWebView = (WebView)findViewById(R.id.webView);
+
 
         //Se define para agregar imagen SVG de barra en caso de telefonos con S.O > API 11
         if (android.os.Build.VERSION.SDK_INT>=11) {
@@ -78,7 +90,7 @@ public class MainActivity extends Activity  {
             imageView_pause.setLayerType(View.LAYER_TYPE_SOFTWARE, null); //activa la aceleracion de hw
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-           // imageView_play.setAdjustViewBounds(true);
+
             imageView.setImageDrawable(homeSvg.createPictureDrawable());
 
             imageView_play.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -101,8 +113,8 @@ public class MainActivity extends Activity  {
             //par.setVisibility(View.VISIBLE);
         }
         /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
-        populateWebView();
-       // valida_version();
+       // populateWebView();
+      //  valida_version();
         estaConectado();
         /************** /Módulos de muestra de webview validación de conectividad y validación de versión app***************/
 
@@ -133,6 +145,21 @@ public class MainActivity extends Activity  {
                 }
             }
         });
+        //Bloque de codigo para validar version app
+
+        myWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                Log.i("entro a evento ond","si");
+
+                tarea4 = new MiTareaAsincrona_4();
+                tarea4.execute();
+
+                tarea3 = new MiTareaAsincrona_3();
+                tarea3.execute();
+            }
+        });
+
     }
     public class MiTareaAsincrona extends AsyncTask<Void, Integer, Boolean> {
         @Override
@@ -198,49 +225,67 @@ public class MainActivity extends Activity  {
             return true;
         }
     }
-    private void populateWebView() {
-        lk= "http://m.cooperativa.cl";
-        //Log.i("La url ", "es: " + lk);
-        final WebView myWebView;
 
-        myWebView = (WebView)findViewById(R.id.webView);
-        myWebView.setWebViewClient(new WebViewClient());
 
-        myWebView.getSettings().setJavaScriptEnabled(true);
-        myWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        myWebView.loadUrl(lk);
+    private class MiTareaAsincrona_3 extends AsyncTask<Void, Integer, Boolean> {
+        @Override
+        protected void onPreExecute() {
+            myWebView.getSettings().setJavaScriptEnabled(true);
+            myWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+            myWebView.getSettings().setDatabaseEnabled(true);
+        }
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
 
-        myWebView.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String url) {
-                String msgToSend = "x";
-                myWebView.loadUrl("javascript:callFromActivity(\"" + msgToSend + "\")");
-                if (url.contains("#") && flag == false) {
-                    myWebView.loadUrl(url);
-                    flag = true;
-                } else {
-                    flag = false;
-                }
-            }
-        });
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            myWebView.loadUrl(lk);
+            String msgToSend = "x";
+            myWebView.loadUrl("javascript:callFromActivity(\"" + msgToSend + "\")");
+            return true;
+        }
     }
 
-    private void valida_version() {
+    private class MiTareaAsincrona_4 extends AsyncTask<Void, Integer, Boolean> {
+        @Override
+        protected void onPreExecute() {
+            myWebView.getSettings().setJavaScriptEnabled(true);
+            myWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+            myWebView.getSettings().setDatabaseEnabled(true);
+        }
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
 
-        final WebView myBrowser;
-        myBrowser = (WebView)findViewById(R.id.webView);
-        myBrowser.setWebViewClient(new WebViewClient());
-        myBrowser.getSettings().setJavaScriptEnabled(true);
-        myBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        myBrowser.getSettings().setDatabaseEnabled(true);
-        myBrowser.loadUrl("http://m.cooperativa.cl");
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+        @Override
+        protected Boolean doInBackground(Void... params) {
 
-        myBrowser.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                String msgToSend = "x";
-                myBrowser.loadUrl("javascript:callFromActivity(\"" + msgToSend + "\")");
+            if (url.contains("#") && flag == false) {
+                myWebView.loadUrl(url);
+                flag = true;
+            } else {
+                flag = false;
             }
-        });
+            return true;
+        }
     }
     protected void onPause() {
         super.onPause();
