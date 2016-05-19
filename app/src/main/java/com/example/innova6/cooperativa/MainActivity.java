@@ -30,14 +30,13 @@ import java.io.IOException;
 
 public class MainActivity extends Activity  {
     static MediaPlayer mPlayer;
-
     ImageButton buttonPlay;
     ImageButton buttonPause;
-    ProgressBar pgrbarr;
-    WebView myBrowser;
 
-    public String lk="http://m.cooperativa.cl";
-   // public static boolean flag = false;
+
+    ProgressBar pgrbarr;
+    public String lk;
+    public static boolean flag = false;
 
     //*******Declaración de las tareas ejecutadas en segundo plano*****//
 
@@ -47,9 +46,6 @@ public class MainActivity extends Activity  {
     //tarea2-> mostrar loading al cargar url del mplayer
     private MiTareaAsincrona_2 tarea2;
 
-    //tarea3-> Cargar y mostrar
-    private MiTareaAsincrona_3 tarea3;
-
     String url = "http://unlimited1-us.digitalproserver.com/cooperativafm/mp3/icecast.audio";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +54,17 @@ public class MainActivity extends Activity  {
 
         //Se define para agregar imagen SVG de barra en caso de telefonos con S.O > API 11
         if (android.os.Build.VERSION.SDK_INT>=11) {
-        setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_main);
 
-        buttonPlay = (ImageButton) findViewById(R.id.play);
-        buttonPause = (ImageButton) findViewById(R.id.pause);
-        pgrbarr=(ProgressBar) findViewById(R.id.progressBar);
-        myBrowser = (WebView)findViewById(R.id.webView);
+            buttonPlay = (ImageButton) findViewById(R.id.play);
+            buttonPause = (ImageButton) findViewById(R.id.pause);
+            pgrbarr=(ProgressBar) findViewById(R.id.progressBar);
 
-//        buttonPause.setVisibility(View.INVISIBLE);
-//        buttonPlay.setVisibility(View.INVISIBLE);
 
-       // pgrbarr.setVisibility(View.VISIBLE);
+            buttonPause.setVisibility(View.INVISIBLE);
+            buttonPlay.setVisibility(View.INVISIBLE);
+
+            pgrbarr.setVisibility(View.VISIBLE);
 
             ImageView imageView = (ImageView) findViewById(R.id.binferior);//imageview de barra inferior
             ImageView imageView_play= (ImageView) findViewById(R.id.play);//imageview de boton play
@@ -83,7 +79,7 @@ public class MainActivity extends Activity  {
             imageView_pause.setLayerType(View.LAYER_TYPE_SOFTWARE, null); //activa la aceleracion de hw
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-           // imageView_play.setAdjustViewBounds(true);
+            // imageView_play.setAdjustViewBounds(true);
             imageView.setImageDrawable(homeSvg.createPictureDrawable());
 
             imageView_play.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -107,7 +103,7 @@ public class MainActivity extends Activity  {
         }
         /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
         //populateWebView();
-      //  valida_version();
+        valida_version();
         estaConectado();
         /************** /Módulos de muestra de webview validación de conectividad y validación de versión app***************/
 
@@ -136,15 +132,6 @@ public class MainActivity extends Activity  {
                 if (mPlayer != null && mPlayer.isPlaying()) {
                     mPlayer.pause();
                 }
-            }
-        });
-
-        //Bloque de codigo para cargar la tarea de validación de app y muestra de sitio coop
-        myBrowser.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                tarea3=new MiTareaAsincrona_3();
-                tarea3.execute();
             }
         });
     }
@@ -212,39 +199,11 @@ public class MainActivity extends Activity  {
             return true;
         }
     }
-    private class MiTareaAsincrona_3 extends AsyncTask<Void, Integer, Boolean> {
-        @Override
-        protected void onPreExecute() {
-            myBrowser.setWebViewClient(new WebViewClient());
-            myBrowser.getSettings().setJavaScriptEnabled(true);
-            myBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-            myBrowser.getSettings().setDatabaseEnabled(true);
-        }
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
 
-        }
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-        }
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            String msgToSend = "x";
-            Log.i("llego a onpage","si");
-            myBrowser.loadUrl(lk);
-            myBrowser.loadUrl("javascript:oldAppMsje.callFromActivity(\"" + msgToSend + "\")");
-            return true;
-        }
-    }
 
- /*   private void valida_version() {
+    private void valida_version() {
 
-         WebView myBrowser;
+        final WebView myBrowser;
         myBrowser = (WebView)findViewById(R.id.webView);
         myBrowser.setWebViewClient(new WebViewClient());
         myBrowser.getSettings().setJavaScriptEnabled(true);
@@ -260,7 +219,7 @@ public class MainActivity extends Activity  {
                 myBrowser.loadUrl("javascript:oldAppMsje.callFromActivity(\"" + msgToSend + "\")");
             }
         });
-    }*/
+    }
     protected void onPause() {
         super.onPause();
     }
@@ -330,15 +289,15 @@ public class MainActivity extends Activity  {
 
     protected Boolean estaConectado(){
         if(conectadoWifi()){
-           // showAlertDialog(Main.this, "Conexion a Internet",
-                 //   "Tu Dispositivo tiene Conexion a Wifi.", true);
+            // showAlertDialog(Main.this, "Conexion a Internet",
+            //   "Tu Dispositivo tiene Conexion a Wifi.", true);
 
             Toast.makeText(getApplicationContext(), "Estás conectado a través de Wifi", Toast.LENGTH_LONG).show();
             return true;
         }else{
             if(conectadoRedMovil()){
                 //showAlertDialog(Main.this, "Conexion a Internet",
-                  //      "Tu Dispositivo tiene Conexion Movil.", true);
+                //      "Tu Dispositivo tiene Conexion Movil.", true);
 
                 Toast.makeText(getApplicationContext(), "Actualmente estás usando tus datos móviles. Te recomendamos utilizar Wifi", Toast.LENGTH_LONG).show();
                 return true;
