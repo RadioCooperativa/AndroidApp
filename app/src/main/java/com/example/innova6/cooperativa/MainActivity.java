@@ -30,13 +30,14 @@ import java.io.IOException;
 
 public class MainActivity extends Activity  {
     static MediaPlayer mPlayer;
+
     ImageButton buttonPlay;
     ImageButton buttonPause;
-
-
     ProgressBar pgrbarr;
-    public String lk;
-    public static boolean flag = false;
+    WebView myBrowser;
+
+    public String lk="http://m.cooperativa.cl";
+   // public static boolean flag = false;
 
     //*******Declaración de las tareas ejecutadas en segundo plano*****//
 
@@ -45,6 +46,9 @@ public class MainActivity extends Activity  {
 
     //tarea2-> mostrar loading al cargar url del mplayer
     private MiTareaAsincrona_2 tarea2;
+
+    //tarea3-> Cargar y mostrar
+    private MiTareaAsincrona_3 tarea3;
 
     String url = "http://unlimited1-us.digitalproserver.com/cooperativafm/mp3/icecast.audio";
     @Override
@@ -59,12 +63,12 @@ public class MainActivity extends Activity  {
         buttonPlay = (ImageButton) findViewById(R.id.play);
         buttonPause = (ImageButton) findViewById(R.id.pause);
         pgrbarr=(ProgressBar) findViewById(R.id.progressBar);
+        myBrowser = (WebView)findViewById(R.id.webView);
 
+//        buttonPause.setVisibility(View.INVISIBLE);
+//        buttonPlay.setVisibility(View.INVISIBLE);
 
-        buttonPause.setVisibility(View.INVISIBLE);
-        buttonPlay.setVisibility(View.INVISIBLE);
-
-        pgrbarr.setVisibility(View.VISIBLE);
+       // pgrbarr.setVisibility(View.VISIBLE);
 
             ImageView imageView = (ImageView) findViewById(R.id.binferior);//imageview de barra inferior
             ImageView imageView_play= (ImageView) findViewById(R.id.play);//imageview de boton play
@@ -103,7 +107,7 @@ public class MainActivity extends Activity  {
         }
         /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
         //populateWebView();
-        valida_version();
+      //  valida_version();
         estaConectado();
         /************** /Módulos de muestra de webview validación de conectividad y validación de versión app***************/
 
@@ -132,6 +136,15 @@ public class MainActivity extends Activity  {
                 if (mPlayer != null && mPlayer.isPlaying()) {
                     mPlayer.pause();
                 }
+            }
+        });
+
+        //Bloque de codigo para cargar la tarea de validación de app y muestra de sitio coop
+        myBrowser.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                tarea3=new MiTareaAsincrona_3();
+                tarea3.execute();
             }
         });
     }
@@ -199,35 +212,39 @@ public class MainActivity extends Activity  {
             return true;
         }
     }
-    private void populateWebView() {
-        lk= "http://m.cooperativa.cl";
-        //Log.i("La url ", "es: " + lk);
-        final WebView myWebView;
+    private class MiTareaAsincrona_3 extends AsyncTask<Void, Integer, Boolean> {
+        @Override
+        protected void onPreExecute() {
+            myBrowser.setWebViewClient(new WebViewClient());
+            myBrowser.getSettings().setJavaScriptEnabled(true);
+            myBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+            myBrowser.getSettings().setDatabaseEnabled(true);
+        }
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
 
-        myWebView = (WebView)findViewById(R.id.webView);
-        myWebView.setWebViewClient(new WebViewClient());
-
-        myWebView.getSettings().setJavaScriptEnabled(true);
-        myWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        myWebView.loadUrl(lk);
-
-        myWebView.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String url) {
-                String msgToSend = "x";
-                myWebView.loadUrl("javascript:callFromActivity(\"" + msgToSend + "\")");
-                if (url.contains("#") && flag == false) {
-                    myWebView.loadUrl(url);
-                    flag = true;
-                } else {
-                    flag = false;
-                }
-            }
-        });
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            String msgToSend = "x";
+            Log.i("llego a onpage","si");
+            myBrowser.loadUrl(lk);
+            myBrowser.loadUrl("javascript:oldAppMsje.callFromActivity(\"" + msgToSend + "\")");
+            return true;
+        }
     }
 
-    private void valida_version() {
+ /*   private void valida_version() {
 
-        final WebView myBrowser;
+         WebView myBrowser;
         myBrowser = (WebView)findViewById(R.id.webView);
         myBrowser.setWebViewClient(new WebViewClient());
         myBrowser.getSettings().setJavaScriptEnabled(true);
@@ -243,7 +260,7 @@ public class MainActivity extends Activity  {
                 myBrowser.loadUrl("javascript:oldAppMsje.callFromActivity(\"" + msgToSend + "\")");
             }
         });
-    }
+    }*/
     protected void onPause() {
         super.onPause();
     }

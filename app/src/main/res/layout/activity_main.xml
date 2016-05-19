@@ -35,7 +35,8 @@
                 android:id="@+id/play"
                 android:background="@null"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:visibility="invisible" />
 
             <ImageButton
                 android:layout_width="25dp"
@@ -43,7 +44,8 @@
                 android:id="@+id/pause"
                 android:background="@null"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:visibility="invisible" />
 
             <ProgressBar
                 style="?android:attr/progressBarStyleSmall"
@@ -52,7 +54,8 @@
                 android:id="@+id/progressBar"
                 android:layout_marginLeft="20dp"
                 android:color="#145899"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:visibility="visible" />
 
         </FrameLayout>
 
