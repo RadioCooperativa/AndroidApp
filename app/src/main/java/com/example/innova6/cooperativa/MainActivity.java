@@ -46,6 +46,8 @@ public class MainActivity extends Activity  {
     //tarea2-> mostrar loading al cargar url del mplayer
     private MiTareaAsincrona_2 tarea2;
 
+    private MiTareaAsincrona_3 tarea3;
+
     String url = "http://unlimited1-us.digitalproserver.com/cooperativafm/mp3/icecast.audio";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,7 +202,28 @@ public class MainActivity extends Activity  {
         }
     }
 
+    private class MiTareaAsincrona_3 extends AsyncTask<Void, Integer, Boolean> {
+        @Override
+        protected void onPreExecute() {
+        }
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
 
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+        @Override
+        protected Boolean doInBackground(Void... params) {
+           
+            return true;
+        }
+    }
     private void valida_version() {
 
         final WebView myBrowser;
