@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -101,8 +102,8 @@ public class MainActivity extends Activity  {
             //par.setVisibility(View.VISIBLE);
         }
         /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
-        populateWebView();
-       // valida_version();
+        //populateWebView();
+        valida_version();
         estaConectado();
         /************** /Módulos de muestra de webview validación de conectividad y validación de versión app***************/
 
@@ -238,7 +239,8 @@ public class MainActivity extends Activity  {
             @Override
             public void onPageFinished(WebView view, String url) {
                 String msgToSend = "x";
-                myBrowser.loadUrl("javascript:callFromActivity(\"" + msgToSend + "\")");
+                Log.i("llego a onpage","si");
+                myBrowser.loadUrl("javascript:oldAppMsje.callFromActivity(\"" + msgToSend + "\")");
             }
         });
     }
