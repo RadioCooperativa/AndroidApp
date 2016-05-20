@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -54,6 +53,7 @@ public class MainActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// evita que se gire la pantalla
 
+
         //Se define para agregar imagen SVG de barra en caso de telefonos con S.O > API 11
         if (android.os.Build.VERSION.SDK_INT>=11) {
             setContentView(R.layout.activity_main);
@@ -61,7 +61,6 @@ public class MainActivity extends Activity  {
             buttonPlay = (ImageButton) findViewById(R.id.play);
             buttonPause = (ImageButton) findViewById(R.id.pause);
             pgrbarr=(ProgressBar) findViewById(R.id.progressBar);
-
 
             buttonPause.setVisibility(View.INVISIBLE);
             buttonPlay.setVisibility(View.INVISIBLE);
@@ -91,7 +90,10 @@ public class MainActivity extends Activity  {
             imageView_pause.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView_pause.setAdjustViewBounds(true);
             imageView_pause.setImageDrawable(homeSvg_pause.createPictureDrawable());
-        }else{
+
+        }
+        else
+        {
             setContentView(R.layout.activity_main_bajo);
 
             buttonPlay = (ImageButton) findViewById(R.id.play);
@@ -103,9 +105,10 @@ public class MainActivity extends Activity  {
             pgrbarr.setVisibility(View.VISIBLE);
             //par.setVisibility(View.VISIBLE);
         }
+
         /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
         //populateWebView();
-        valida_version();
+        //valida_version();
         estaConectado();
         /************** /Módulos de muestra de webview validación de conectividad y validación de versión app***************/
 
@@ -114,6 +117,11 @@ public class MainActivity extends Activity  {
 
         tarea2=new MiTareaAsincrona_2();
         tarea2.execute();
+
+        tarea3=new MiTareaAsincrona_3();
+        tarea3.execute();
+
+
 
         //Bloque de codigo para el streaming al presionar play
         buttonPlay.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +134,7 @@ public class MainActivity extends Activity  {
 
             }
         });
+
         //Bloque de codigo para el streaming al presionar pause
         buttonPause.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -203,12 +212,15 @@ public class MainActivity extends Activity  {
     }
 
     private class MiTareaAsincrona_3 extends AsyncTask<Void, Integer, Boolean> {
+
+
         @Override
         protected void onPreExecute() {
+
+
         }
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-
         }
         @Override
         protected void onProgressUpdate(Integer... values) {
@@ -220,18 +232,38 @@ public class MainActivity extends Activity  {
         }
         @Override
         protected Boolean doInBackground(Void... params) {
-           
+         //  myBrowser.setWebViewClient(new WebViewClient());
+            final WebView myBrowser;
+            myBrowser = (WebView)findViewById(R.id.webView);
+            myBrowser.getSettings().setJavaScriptEnabled(true);
+            myBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+            myBrowser.getSettings().setDatabaseEnabled(true);
+
+            myBrowser.loadUrl("http://m.cooperativa.cl");
+            String msgToSend = "x";
+            Log.i("llego a onpage", "si");
+            myBrowser.loadUrl("javascript:oldAppMsje.callFromActivity(\"" + msgToSend + "\")");
+
+           /* myBrowser.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageFinished(WebView view, String url) {
+
+
+                }
+            });*/
             return true;
         }
     }
-    private void valida_version() {
+  /*  private void valida_version() {
 
-        final WebView myBrowser;
+
         myBrowser = (WebView)findViewById(R.id.webView);
+
         myBrowser.setWebViewClient(new WebViewClient());
         myBrowser.getSettings().setJavaScriptEnabled(true);
         myBrowser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         myBrowser.getSettings().setDatabaseEnabled(true);
+
         myBrowser.loadUrl("http://m.cooperativa.cl");
 
         myBrowser.setWebViewClient(new WebViewClient() {
@@ -242,7 +274,7 @@ public class MainActivity extends Activity  {
                 myBrowser.loadUrl("javascript:oldAppMsje.callFromActivity(\"" + msgToSend + "\")");
             }
         });
-    }
+    }*/
     protected void onPause() {
         super.onPause();
     }
