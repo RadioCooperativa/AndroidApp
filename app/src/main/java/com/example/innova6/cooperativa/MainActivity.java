@@ -46,7 +46,7 @@ public class MainActivity extends Activity  {
     //tarea2-> mostrar loading al cargar url del mplayer
     private MiTareaAsincrona_2 tarea2;
 
-    String url = "http://unlimited1-us.digitalproserver.com/cooperativafm/mp3/icecast.audio";
+    String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +110,7 @@ public class MainActivity extends Activity  {
         mPlayer = new MediaPlayer();
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-        tarea2=new MiTareaAsincrona_2();
+        tarea2 = new MiTareaAsincrona_2();
         tarea2.execute();
 
         //Bloque de codigo para el streaming al presionar play
