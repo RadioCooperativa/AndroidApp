@@ -35,15 +35,15 @@ public class MainActivity extends Activity  {
 
 
     ProgressBar pgrbarr;
-    public String lk;
-    public static boolean flag = false;
+    //public String lk;
+    //public static boolean flag = false;
 
     //*******Declaración de las tareas ejecutadas en segundo plano*****//
 
-    //tarea1-> inicialización del player al cargar el activity
+    //tarea1-> inicialización del player al presionar play, ademas de trabajar con el progressbar
     private MiTareaAsincrona tarea1;
 
-    //tarea2-> mostrar loading al cargar url del mplayer
+    //tarea2-> inicialización del player al arrancar app
     private MiTareaAsincrona_2 tarea2;
 
     String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
@@ -62,9 +62,9 @@ public class MainActivity extends Activity  {
 
 
             buttonPause.setVisibility(View.INVISIBLE);
-            buttonPlay.setVisibility(View.INVISIBLE);
+            buttonPlay.setVisibility(View.VISIBLE);
 
-            pgrbarr.setVisibility(View.VISIBLE);
+            pgrbarr.setVisibility(View.INVISIBLE);
 
             ImageView imageView = (ImageView) findViewById(R.id.binferior);//imageview de barra inferior
             ImageView imageView_play= (ImageView) findViewById(R.id.play);//imageview de boton play
@@ -97,8 +97,8 @@ public class MainActivity extends Activity  {
             pgrbarr=(ProgressBar) findViewById(R.id.progressBar);
 
             buttonPause.setVisibility(View.INVISIBLE);
-            buttonPlay.setVisibility(View.INVISIBLE);
-            pgrbarr.setVisibility(View.VISIBLE);
+            buttonPlay.setVisibility(View.VISIBLE);
+            pgrbarr.setVisibility(View.INVISIBLE);
             //par.setVisibility(View.VISIBLE);
         }
         /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
@@ -110,8 +110,8 @@ public class MainActivity extends Activity  {
         mPlayer = new MediaPlayer();
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-        tarea2 = new MiTareaAsincrona_2();
-        tarea2.execute();
+       // tarea2 = new MiTareaAsincrona_2();
+       // tarea2.execute();
 
         //Bloque de codigo para el streaming al presionar play
         buttonPlay.setOnClickListener(new View.OnClickListener() {
