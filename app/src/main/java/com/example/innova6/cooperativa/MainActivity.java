@@ -1,7 +1,6 @@
 package com.example.innova6.cooperativa;
 /*Desarrollado por Rodrigo A Vargas Sanhueza para Radio Cooperativa - Abril del 2016*/
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +12,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
@@ -22,13 +23,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
 import java.io.IOException;
 
 
-public class MainActivity extends Activity  {
+public class MainActivity extends AppCompatActivity {
     static MediaPlayer mPlayer;
     ImageButton buttonPlay;
     ImageButton buttonPause;
@@ -46,11 +49,21 @@ public class MainActivity extends Activity  {
     //tarea2-> inicialización del player al arrancar app
     private MiTareaAsincrona_2 tarea2;
 
+    private Tracker mTracker;
+
+    private ViewPager mViewPager;
+
     String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// evita que se gire la pantalla
+
+        // [START shared_tracker]
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        // [END shared_tracker]
 
         //Se define para agregar imagen SVG de barra en caso de telefonos con S.O > API 11
         if (android.os.Build.VERSION.SDK_INT>=11) {
@@ -135,6 +148,8 @@ public class MainActivity extends Activity  {
             }
         });
     }
+
+
     public class MiTareaAsincrona extends AsyncTask<Void, Integer, Boolean> {
         @Override
         protected void onPreExecute() {
@@ -223,7 +238,10 @@ public class MainActivity extends Activity  {
     protected void onPause() {
         super.onPause();
     }
+
     protected void onResume() {
+
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         super.onResume();
     }
     protected void onDestroy() {
