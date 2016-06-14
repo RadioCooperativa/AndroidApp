@@ -1,6 +1,7 @@
 package com.example.innova6.cooperativa;
 /*Desarrollado por Rodrigo A Vargas Sanhueza para Radio Cooperativa - Abril del 2016*/
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,8 +13,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -30,7 +29,7 @@ import com.larvalabs.svgandroid.SVGParser;
 import java.io.IOException;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     static MediaPlayer mPlayer;
     ImageButton buttonPlay;
     ImageButton buttonPause;
@@ -56,11 +55,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// evita que se gire la pantalla
 
+
         // [START shared_tracker]
         // Obtain the shared Tracker instance.
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
         // [END shared_tracker]
+
 
         //Se define para agregar imagen SVG de barra en caso de telefonos con S.O > API 11
         if (android.os.Build.VERSION.SDK_INT>=11) {
@@ -218,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 String msgToSend = "x";
-                Log.i("llego a onpage","si");
+               // Log.i("llego a onpage","si");
                 myBrowser.loadUrl("javascript:oldAppMsje.callFromActivity(\"" + msgToSend + "\")");
             }
         });
