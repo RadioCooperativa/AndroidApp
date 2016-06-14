@@ -12,7 +12,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -51,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Tracker mTracker;
 
-    private ViewPager mViewPager;
-
-    String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
+       String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
                 buttonPlay.setVisibility(View.INVISIBLE);
                 tarea1 = new MiTareaAsincrona();
                 tarea1.execute();
-
             }
         });
         //Bloque de codigo para el streaming al presionar pause
@@ -148,12 +144,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
     public class MiTareaAsincrona extends AsyncTask<Void, Integer, Boolean> {
         @Override
         protected void onPreExecute() {
-
         }
         @Override
         protected void onPostExecute(Boolean aBoolean) {
@@ -163,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-
         }
         @Override
         protected void onCancelled() {
@@ -176,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
                 mPlayer.setDataSource(url);
                 mPlayer.prepare();
                 mPlayer.start();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -214,10 +205,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
-
-
     private void valida_version() {
-
         final WebView myBrowser;
         myBrowser = (WebView)findViewById(R.id.webView);
         myBrowser.setWebViewClient(new WebViewClient());
@@ -238,9 +226,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
     }
-
     protected void onResume() {
-
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         super.onResume();
     }
