@@ -103,7 +103,8 @@ public class MainActivity extends Activity {
             imageView_pause.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView_pause.setAdjustViewBounds(true);
             imageView_pause.setImageDrawable(homeSvg_pause.createPictureDrawable());
-        }else{
+            }else{
+
             setContentView(R.layout.activity_main_bajo);
 
             buttonPlay = (ImageButton) findViewById(R.id.play);
@@ -328,27 +329,34 @@ public class MainActivity extends Activity {
     }
 
     public class WebViewClientExternal extends WebViewClient {
+        //Función creada para solucionar problema de carga de iframe dentro de webview
+        //se consulta si lo que abrirá está dentro de lo declarado en strings.xml y procede, abre en webview o en browser
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
-        boolean url_sitio_renvivo=Uri.parse(url).getPath().endsWith(view.getResources().getString(R.string.excluye_radio_en_vivo));
-        boolean url_sitio_lahistoria=Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.excluye_la_historia));
-      // String url_sitio_lahistoria="http://programas.cooperativa.cl/lahistoriaesnuestra/";
+        //variable para capturar lo declarado en el archivo strings.xml, para excluir radio_en_vivo y abrir en browser
+        boolean url_excluye_renvivo=Uri.parse(url).getPath().endsWith(view.getResources().getString(R.string.excluye_radio_en_vivo));
 
-          Log.i("url_sitio: "+url_sitio_lahistoria,"<--");
+        //variable para capturar lo declarado en el archivo strings.xml, para excluir los programas y abrirlos en browser
+        boolean url_excluye_programas=Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.excluye_programas));
 
-           if ( url_sitio_renvivo == true || url_sitio_lahistoria == true ) {
+          //Log.i("url_sitio: "+url_programas,"<--");
+
+           if ( url_excluye_renvivo == true || url_excluye_programas == true ) {
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 view.getContext().startActivity(intent);
                 Log.i("Entra a if ","WebViewClientExternal_1");
                 return true;
-            } else {
-                if (Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.frag_web_root))) {
+
+                }else{
+               
+                if (Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.frag_web_root)))
+                {
                     Log.i("Entra a if ","WebViewClientExternal_2");
                 }
                 return false;
             }
-            }
+        }
     }
 }
