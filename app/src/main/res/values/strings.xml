@@ -4,4 +4,6 @@
     <string name="frag_web_root">m.cooperativa.cl</string>
     <string name="excluye_radio_en_vivo">radioenvivo</string>
     <string name="excluye_programas">programas.cooperativa.cl</string>
+    <string name="time_wait_check">500</string>
+    <string name="time_check">500</string>
 </resources>

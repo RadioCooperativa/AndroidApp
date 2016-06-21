@@ -30,14 +30,23 @@ import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends Activity {
+
+
+    Timer timer;
+    boolean connectNew, connectOld;
+    int TIME_WAIT_CHECK;//En milisegundos. Es el tiempo que pasará desde el inicio de la App para empezar a comprobar la
+    // conexión.
+    int TIME_CHECK; // En milisegundos. Cada cuento tiempo revisará la conexión.
+
+
     static MediaPlayer mPlayer;
     ImageButton buttonPlay;
     ImageButton buttonPause;
-
-
     ProgressBar pgrbarr;
     //public String lk;
     //public static boolean flag = false;
@@ -52,14 +61,18 @@ public class MainActivity extends Activity {
 
     private Tracker mTracker;
 
-       String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
+    String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// evita que se gire la pantalla
 
+        // Iniciamos constantes
+        TIME_WAIT_CHECK = Integer.parseInt(getResources().getString(R.string.time_wait_check));
+        TIME_CHECK = Integer.parseInt(getResources().getString(R.string.time_check));
 
-        // [START shared_tracker]
+         // [START shared_tracker]
         // Obtain the shared Tracker instance.
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
@@ -73,7 +86,6 @@ public class MainActivity extends Activity {
             buttonPlay = (ImageButton) findViewById(R.id.play);
             buttonPause = (ImageButton) findViewById(R.id.pause);
             pgrbarr=(ProgressBar) findViewById(R.id.progressBar);
-
 
             buttonPause.setVisibility(View.INVISIBLE);
             buttonPlay.setVisibility(View.VISIBLE);
@@ -117,7 +129,6 @@ public class MainActivity extends Activity {
             //par.setVisibility(View.VISIBLE);
         }
         /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
-        //populateWebView();
         valida_version();
         estaConectado();
         /************** /Módulos de muestra de webview validación de conectividad y validación de versión app***************/
@@ -148,6 +159,23 @@ public class MainActivity extends Activity {
                 }
             }
         });
+
+        // Se inicia el TimerTask (una tarea en segundo plano que se ejecutará cada cierto tiempo
+        // mientras esté activa la aplicación).
+        networkConnected nc = new networkConnected();
+        // Se inicia un timer necesario para que el TimerTask sepa cada cuanto tiempo se repetirá.
+        timer = new Timer();
+        timer.scheduleAtFixedRate(nc, TIME_WAIT_CHECK, TIME_CHECK);
+        // 1.- Es el TimerTask que se ejecutará.
+        // 2.- Es el tiempo que esperará para ejecutarse por primera vez.
+        // 3.- Es el tiempo que tardará en repetirse el TimerTack.
+
+        // ¡Imprescindible! Se encarga de guardar el estado de la antigua conexión y de la nueva. Llamaremos a este if ConectionOK, acuerdate.
+        if (connectNew) {
+            connectOld = false;
+        } else {
+            connectOld = true;
+        }
     }
     public class MiTareaAsincrona extends AsyncTask<Void, Integer, Boolean> {
         @Override
@@ -270,57 +298,21 @@ public class MainActivity extends Activity {
             alert.show();
         }
     }
-    protected Boolean conectadoWifi(){
-        ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-            NetworkInfo info = connectivity.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            if (info != null) {
-                if (info.isConnected()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    protected Boolean conectadoRedMovil(){
-        ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-            NetworkInfo info = connectivity.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-            if (info != null) {
-                if (info.isConnected()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
+    /*Comprobamos si existe conexión a internet, si no existe se cargaran unas imágenes
+        sustituyendo el WebView*/
     protected Boolean estaConectado(){
-        if(conectadoWifi()){
-            // showAlertDialog(Main.this, "Conexion a Internet",
-            //   "Tu Dispositivo tiene Conexion a Wifi.", true);
-
-            Toast.makeText(getApplicationContext(), "Estás conectado a través de Wifi", Toast.LENGTH_LONG).show();
-            return true;
-        }else{
-            if(conectadoRedMovil()){
-                //showAlertDialog(Main.this, "Conexion a Internet",
-                //      "Tu Dispositivo tiene Conexion Movil.", true);
-
-                Toast.makeText(getApplicationContext(), "Actualmente estás usando tus datos móviles. Te recomendamos utilizar Wifi", Toast.LENGTH_LONG).show();
-                return true;
-            }else{
+       ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context
+                    .CONNECTIVITY_SERVICE);
+            NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+            if (info == null || !info.isConnected() || !info.isAvailable()) { // No existe conexión
                 Toast.makeText(getApplicationContext(), "No tienes conectividad a internet. Para usar la aplicación necesitas estar conectado", Toast.LENGTH_LONG).show();
-               /* Intent intent = new Intent(this, SinConexion.class);
-                startActivity(intent);*/
                 Intent myIntent = new Intent(MainActivity.this, SinConexion.class);
                 startActivityForResult(myIntent, 0);
                 return false;
+            } else { // Existe conexión
+                return true;
             }
         }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == 0) {
@@ -328,10 +320,88 @@ public class MainActivity extends Activity {
         }
     }
 
-    public class WebViewClientExternal extends WebViewClient {
-        //Función creada para solucionar problema de carga de iframe dentro de webview
-        //se consulta si lo que abrirá está dentro de lo declarado en strings.xml y procede, abre en webview o en browser
+    // Tarea repetitiva en segundo plano. Se encarga de comprobar si la conexión se pierde o no.
+    private class networkConnected extends TimerTask {
         @Override
+        public void run() {
+            // En los TimerTask no se puede hacer referencia a las views por lo que utilizamos
+            // "runOnUiThread" para poder acceder a las view del thread principal.
+            runOnUiThread(new Runnable() {
+                              @Override
+                              public void run() {
+                                  // Comprobar si existe o no conexión a internet
+                                  ConnectivityManager connectivityManager = (ConnectivityManager)
+                                          getSystemService(Context.CONNECTIVITY_SERVICE);
+                                  NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+                                  if (info == null || !info.isConnected() || !info.isAvailable()) {
+                                      connectNew = false; // Desconectado
+                                  } else {
+                                      connectNew = true; // Conectado
+                                  }
+
+                                  // Cambiamos la vista de la actividad para mostrar una imagen (si
+                                  // se pierde la conexión) o mostrar la web (si la hemos
+                                  // recuperado).
+                                  //
+                                  // Utilizamos dos variables connectNew y connectOld:
+                                  //
+                                  //    - connectNew: esta variable es la que indicará si existe o
+                                  //                  no conexión.
+                                  //    - connectOld: esta variable detectará si se ha sufrido algún
+                                  //                  cambio en la conexión desde el útlimo cambio.
+                                  //
+                                  // Cuando se ejecuta la aplicación, el valor de las dos variables
+                                  // es null. Cuando se inicia la clase TimerTask, connectNew recibe
+                                  // un valor booleano de la conexión y, como puede ser, que el valor
+                                  // sea false en la primera ejecución, en el if ConnectionOK le damos a
+                                  // connectOld el valor contrario al de connectNew para que entre
+                                  // en la primera condición del IF siguiente (el de abajo de este parrafo).
+                                  //
+                                  // Esta primera condición sirve para detectar que ha habido un
+                                  // cambio entre la conexión anterior y la nueva y por lo tanto la
+                                  // vista de la actividad tiene que sufrir un cambio.
+                                  //
+                                  // Como en esta explicación hemos dado por sentado que la connectNew
+                                  // seria false y connectOld seria true, entraría en la primera
+                                  // condición del IF y luego solo se tendrá que comprobar el valor
+                                  // connectNew para saber qué cambio es el que se tiene que
+                                  // aplicar. En este caso false, desconectado.
+                                  //
+                                  // Por último, solo tenemos que guardar en connectOld este cambio
+                                  // de conexión, por lo que connectOld se iguala a connectNew y se
+                                  // vuelve a ejecutar la comprobación de la conexión, cambiando o
+                                  // no el valor de connectNew. Además, como esta es la segunda vez
+                                  // que ejecuta el código, ya no pasará por el if ConnectionOK para
+                                  // cambiar el  valor booleano de connectOld. A partir de aquí,
+                                  // connectOld solo cambiara su valor si connectNew cambia.
+
+                                  if (connectNew != connectOld) {
+                                      if (!connectNew) { //Desconectado.
+                                          Toast.makeText(getApplicationContext(), "No tienes conectividad a internet. Para usar la aplicación necesitas estar conectado", Toast.LENGTH_LONG).show();
+
+                                          Intent myIntent = new Intent(MainActivity.this, SinConexion.class);
+                                          startActivityForResult(myIntent, 0);
+                                      } else { //Conectado.
+                                          Intent myIntent = new Intent(MainActivity.this, MainActivity.class);
+                                          startActivityForResult(myIntent, 0);
+
+                                      }
+                                  }
+
+                                  connectOld = connectNew;
+                              }
+                          }
+
+            );
+        }
+
+    }
+
+
+    /*Función creada para solucionar problema de carga de iframe dentro de webview
+    se consulta si lo que abrirá está dentro de lo declarado en strings.xml y procede, abre en webview o en browser*/
+    public class WebViewClientExternal extends WebViewClient {
+         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
         //variable para capturar lo declarado en el archivo strings.xml, para excluir radio_en_vivo y abrir en browser
@@ -350,7 +420,7 @@ public class MainActivity extends Activity {
                 return true;
 
                 }else{
-               
+
                 if (Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.frag_web_root)))
                 {
                     Log.i("Entra a if ","WebViewClientExternal_2");
