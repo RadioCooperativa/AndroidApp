@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
@@ -215,44 +214,18 @@ public class MainActivity extends Activity {
         final WebView myBrowser;
         myBrowser = (WebView)findViewById(R.id.webView);
 
-
-        //myBrowser.setWebViewClient(new WebViewClient());
-        //myBrowser.setWebChromeClient(new WebChromeClient());
+        myBrowser.setWebViewClient(new WebViewClient());
+        myBrowser.setWebChromeClient(new WebChromeClient());
 
         myBrowser.setWebViewClient(new WebViewClientExternal());
 
-        myBrowser.getSettings().setDomStorageEnabled(true);
-        myBrowser.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-
-
+       // myBrowser.getSettings().setDomStorageEnabled(true);
+       // myBrowser.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         myBrowser.getSettings().setJavaScriptEnabled(true);
 
+        myBrowser.loadUrl("http://m.cooperativa.cl");
 
 
-      myBrowser.loadUrl("http://m.cooperativa.cl");
-
-          myBrowser.setWebChromeClient(new WebChromeClient() {
-
-        });
-
-      /*  myBrowser.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-               // Toast.makeText(WebView, "Oh no! " + description, Toast.LENGTH_SHORT).show();
-           Log.i("Error i", " ");
-
-            /*  public void onPageFinished(WebView view, String url) {
-              url= "http://coop.janus.cl/cooperativa/stat/portada/portada.html";
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                view.getContext().startActivity(intent);
-                // String msgToSend = "x";
-               // Log.i("llego a onpage","si");
-
-               // myBrowser.loadUrl("http://coop.janus.cl/cooperativa/stat/portada/portada.html");
-            }
-
-
-        });*/
     }
     protected void onPause() {
         super.onPause();
@@ -357,12 +330,14 @@ public class MainActivity extends Activity {
     public class WebViewClientExternal extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        boolean url_sitio=Uri.parse(url).getPath().endsWith(view.getResources().getString(R.string.excluye_web_root));
-            //String url_sitio=Uri.parse(url).getPath().endsWith(view.getResources().getString(R.string.excluye_web_root));
 
-           Log.i("url_sitio: "+url_sitio,"<--");
+        boolean url_sitio_renvivo=Uri.parse(url).getPath().endsWith(view.getResources().getString(R.string.excluye_radio_en_vivo));
+        boolean url_sitio_lahistoria=Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.excluye_la_historia));
+      // String url_sitio_lahistoria="http://programas.cooperativa.cl/lahistoriaesnuestra/";
 
-           if ( url_sitio == true && ) {
+          Log.i("url_sitio: "+url_sitio_lahistoria,"<--");
+
+           if ( url_sitio_renvivo == true || url_sitio_lahistoria == true ) {
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 view.getContext().startActivity(intent);
@@ -371,12 +346,9 @@ public class MainActivity extends Activity {
             } else {
                 if (Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.frag_web_root))) {
                     Log.i("Entra a if ","WebViewClientExternal_2");
-
                 }
                 return false;
             }
-
             }
-
     }
 }
