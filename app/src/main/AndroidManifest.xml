@@ -14,7 +14,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/ThemeCoop"
-        android:name="AnalyticsApplication">
+        android:name="AnalyticsApplication"
+        android:hardwareAccelerated="true">
 
         <activity
             android:name="Splash"
