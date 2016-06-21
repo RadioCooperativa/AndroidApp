@@ -357,21 +357,23 @@ public class MainActivity extends Activity {
     public class WebViewClientExternal extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-       // boolean url_sitio=Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.frag_web_root));
-           // String url_sitio=Uri.parse(url).getPath().endsWith(view.getResources().getString(R.string.excluye_web_root));
+        boolean url_sitio=Uri.parse(url).getPath().endsWith(view.getResources().getString(R.string.excluye_web_root));
+            //String url_sitio=Uri.parse(url).getPath().endsWith(view.getResources().getString(R.string.excluye_web_root));
 
-           if ( Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.excluye_web_root))) {
+           Log.i("url_sitio: "+url_sitio,"<--");
+
+           if ( url_sitio == true && ) {
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 view.getContext().startActivity(intent);
                 Log.i("Entra a if ","WebViewClientExternal_1");
-                return false;
+                return true;
             } else {
                 if (Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.frag_web_root))) {
                     Log.i("Entra a if ","WebViewClientExternal_2");
 
                 }
-                return true;
+                return false;
             }
 
             }
