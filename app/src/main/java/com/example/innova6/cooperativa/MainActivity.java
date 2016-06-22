@@ -243,6 +243,8 @@ public class MainActivity extends Activity {
         final WebView myBrowser;
         myBrowser = (WebView)findViewById(R.id.webView);
 
+        myBrowser.getSettings().setJavaScriptEnabled(true);
+
         myBrowser.setWebViewClient(new WebViewClient());
         myBrowser.setWebChromeClient(new WebChromeClient());
 
@@ -250,11 +252,18 @@ public class MainActivity extends Activity {
 
        // myBrowser.getSettings().setDomStorageEnabled(true);
        // myBrowser.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        myBrowser.getSettings().setJavaScriptEnabled(true);
+
 
         myBrowser.loadUrl("http://m.cooperativa.cl");
 
+       /* myBrowser.setWebViewClient(new WebViewClient() {
 
+            @Override
+            public  boolean shouldOverrideUrlLoading ( WebView view ,  String url )  {
+
+            }
+        });*/
+//if  ( url . startsWith ( "market://" )|| url . startsWith ( "vnd:youtube" )|| url . startsWith ( "whatsapp://" )|| url . startsWith ( "mailto:" ))
     }
     protected void onPause() {
         super.onPause();
@@ -412,21 +421,31 @@ public class MainActivity extends Activity {
 
           //Log.i("url_sitio: "+url_programas,"<--");
 
-           if ( url_excluye_renvivo == true || url_excluye_programas == true ) {
+             if( url.startsWith("http") || url.startsWith("https") ) {
+                 if ( url_excluye_renvivo == true || url_excluye_programas == true ) {
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                view.getContext().startActivity(intent);
-                Log.i("Entra a if ","WebViewClientExternal_1");
-                return true;
+                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                     view.getContext().startActivity(intent);
+                     Log.i("Entra a if ","WebViewClientExternal_1");
+                     return true;
 
-                }else{
+                 }else{
 
-                if (Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.frag_web_root)))
-                {
-                    Log.i("Entra a if ","WebViewClientExternal_2");
-                }
-                return false;
-            }
-        }
+                     if (Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.frag_web_root)))
+                     {
+                         Log.i("Entra a if ","WebViewClientExternal_2");
+                     }
+                    // return false;
+                 }
+                 return false;
+             }else{
+                 // Otherwise allow the OS to handle things like tel, mailto, etc.
+                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                 startActivity( intent );
+                 return true;
+
+             }
+
+         }
     }
 }
