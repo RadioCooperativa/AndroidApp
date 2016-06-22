@@ -129,7 +129,7 @@ public class MainActivity extends Activity {
             //par.setVisibility(View.VISIBLE);
         }
         /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
-        valida_version();
+        mostrar_web();
         estaConectado();
         /************** /Módulos de muestra de webview validación de conectividad y validación de versión app***************/
 
@@ -238,7 +238,7 @@ public class MainActivity extends Activity {
             return true;
         }
     }
-    private void valida_version() {
+    private void mostrar_web() {
 
         final WebView myBrowser;
         myBrowser = (WebView)findViewById(R.id.webView);
@@ -306,8 +306,8 @@ public class MainActivity extends Activity {
             NetworkInfo info = connectivityManager.getActiveNetworkInfo();
             if (info == null || !info.isConnected() || !info.isAvailable()) { // No existe conexión
                 Toast.makeText(getApplicationContext(), "No tienes conectividad a internet. Para usar la aplicación necesitas estar conectado", Toast.LENGTH_LONG).show();
-                Intent myIntent = new Intent(MainActivity.this, SinConexion.class);
-                startActivityForResult(myIntent, 0);
+                //Intent myIntent = new Intent(MainActivity.this, SinConexion.class);
+                //startActivityForResult(myIntent, 0);
                 return false;
             } else { // Existe conexión
                 return true;
