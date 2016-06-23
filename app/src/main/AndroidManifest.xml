@@ -41,6 +41,7 @@
             android:name=".SinConexion"
             android:label="@string/app_name">
         </activity>
+
         <!-- Enable background dispatching to improve delivery on non-Google Play devices -->
         <receiver
             android:name="com.google.android.gms.analytics.AnalyticsReceiver"
@@ -69,8 +70,6 @@
             android:name="com.google.android.gms.analytics.CampaignTrackingService"
             android:enabled="true"
             />
-
-
 
     </application>
 </manifest>

@@ -253,7 +253,6 @@ public class MainActivity extends Activity {
        // myBrowser.getSettings().setDomStorageEnabled(true);
        // myBrowser.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-
         myBrowser.loadUrl("http://m.cooperativa.cl");
 
     }
@@ -400,7 +399,7 @@ public class MainActivity extends Activity {
 
 
     /*Esta función es llamada desde mostrar_web, y permite abrir sitios externos.
-    * Si está dentro de http o https, y si está dentro de las variabvles declaradas en el archivo
+    * Si está dentro de http o https, y si está dentro de las variables declaradas en el archivo
     * strings.xml (url_excluye_renvivo y url_excluye_programas )se abre con el navegador del SO por defecto,
     * de lo contrario se abre en el mismo webview.
     * Si no pertenece a http o https por ejemplo mailto, whatsapp, market,
