@@ -257,6 +257,7 @@ public class MainActivity extends Activity {
 
     }
     protected void onPause() {
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         super.onPause();
     }
     protected void onResume() {
@@ -420,18 +421,32 @@ public class MainActivity extends Activity {
                      Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                      view.getContext().startActivity(intent);
                      Log.i("Entra a if ","WebViewClientExternal_1");
+
+                 /*    mTracker.send(new HitBuilders.EventBuilder()
+                             .setCategory("Action")
+                             .setAction("Share")
+                             .build());*/
+
                      return true;
 
                  }else{
 
                      if (Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.frag_web_root)))
                      {
+                    /*     mTracker.send(new HitBuilders.EventBuilder()
+                                 .setCategory("Action")
+                                 .setAction("Share")
+                                 .build());*/
                          Log.i("Entra a if ","WebViewClientExternal_2");
                      }
                     // return false;
                  }
                  return false;
              }else{
+                /* mTracker.send(new HitBuilders.EventBuilder()
+                         .setCategory("Action")
+                         .setAction("Share")
+                         .build());*/
                  // Otherwise allow the OS to handle things like tel, mailto, etc.
                  Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                  startActivity( intent );

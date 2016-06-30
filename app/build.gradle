@@ -27,7 +27,10 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile files('libs/svg-android.jar')
     compile files('libs/svg2android.jar')
-    compile 'com.google.android.gms:play-services-analytics:9.0.2'
+
+    // [START gms_compile]
+    compile 'com.google.android.gms:play-services-analytics:9.2.0'
+    // [END gms_compile]
 }
 
 apply plugin: 'com.google.gms.google-services'
