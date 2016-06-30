@@ -45,6 +45,8 @@
             android:label="@string/app_name">
         </activity>
 
+
+        <!-- Elementos para Analytics -->
         <!-- Enable background dispatching to improve delivery on non-Google Play devices -->
         <receiver
             android:name="com.google.android.gms.analytics.AnalyticsReceiver"
@@ -67,10 +69,10 @@
                 <action android:name="com.android.vending.INSTALL_REFERRER"/>
             </intent-filter>
         </receiver>
+
         <service
             android:name="com.google.android.gms.analytics.CampaignTrackingService"
             android:enabled="true"/>
-
 
     </application>
 </manifest>
