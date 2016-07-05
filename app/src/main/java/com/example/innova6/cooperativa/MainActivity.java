@@ -166,7 +166,7 @@ public class MainActivity extends Activity {
         // Se inicia un timer necesario para que el TimerTask sepa cada cuanto tiempo se repetirá.
         timer = new Timer();
         timer.scheduleAtFixedRate(nc, TIME_WAIT_CHECK, TIME_CHECK);
-        // 1.- Es el TimerTask que se ejecutará.
+        // 1.- Es el TimerTask que se ejecutará. uu
         // 2.- Es el tiempo que esperará para ejecutarse por primera vez.
         // 3.- Es el tiempo que tardará en repetirse el TimerTack.
 
