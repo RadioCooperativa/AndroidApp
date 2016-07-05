@@ -24,8 +24,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
@@ -59,7 +58,7 @@ public class MainActivity extends Activity {
     //tarea2-> inicialización del player al arrancar app
     private MiTareaAsincrona_2 tarea2;
 
-    private Tracker mTracker;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
 
@@ -73,9 +72,8 @@ public class MainActivity extends Activity {
         TIME_CHECK = Integer.parseInt(getResources().getString(R.string.time_check));
 
          // [START shared_tracker]
-        // Obtain the shared Tracker instance.
-        AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        mTracker = application.getDefaultTracker();
+        // Obtener la instancia de FireBaseAnalytics.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         // [END shared_tracker]
 
 
@@ -257,11 +255,11 @@ public class MainActivity extends Activity {
 
     }
     protected void onPause() {
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         super.onPause();
     }
     protected void onResume() {
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         super.onResume();
     }
     protected void onDestroy() {
@@ -422,10 +420,7 @@ public class MainActivity extends Activity {
                      view.getContext().startActivity(intent);
                      Log.i("Entra a if ","WebViewClientExternal_1");
 
-                 /*    mTracker.send(new HitBuilders.EventBuilder()
-                             .setCategory("Action")
-                             .setAction("Share")
-                             .build());*/
+
 
                      return true;
 
@@ -433,20 +428,15 @@ public class MainActivity extends Activity {
 
                      if (Uri.parse(url).getHost().endsWith(view.getResources().getString(R.string.frag_web_root)))
                      {
-                    /*     mTracker.send(new HitBuilders.EventBuilder()
-                                 .setCategory("Action")
-                                 .setAction("Share")
-                                 .build());*/
+
                          Log.i("Entra a if ","WebViewClientExternal_2");
                      }
                     // return false;
                  }
                  return false;
              }else{
-                /* mTracker.send(new HitBuilders.EventBuilder()
-                         .setCategory("Action")
-                         .setAction("Share")
-                         .build());*/
+
+
                  // Otherwise allow the OS to handle things like tel, mailto, etc.
                  Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                  startActivity( intent );
