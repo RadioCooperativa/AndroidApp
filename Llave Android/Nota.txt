@@ -1,0 +1,1 @@
+Al momento de generar el apk en AndroidStudio solicita una clave, yo he utilizado siempre 123456
