@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "566746455924",
+    "project_id": "app-cooperativa-cl"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566746455924:android:0dc91d628a60a826",
+        "android_client_info": {
+          "package_name": "cl.android.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJU3lB1TIFyYckitd9Uq7m8t0l6Fi0EOc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-2229911-9"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

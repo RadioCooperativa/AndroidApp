@@ -1,35 +1,52 @@
 {
   "project_info": {
-    "project_number": "566746455924",
-    "project_id": "app-cooperativa-cl"
+    "project_number": "170416479952",
+    "firebase_url": "https://appandroid-59746.firebaseio.com",
+    "project_id": "appandroid-59746",
+    "storage_bucket": "appandroid-59746.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:566746455924:android:0dc91d628a60a826",
+        "mobilesdk_app_id": "1:170416479952:android:0dc91d628a60a826",
         "android_client_info": {
           "package_name": "cl.android.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "170416479952-h3ei2im5daoia49sqlq3q44voiljkndt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cl.android.app",
+            "certificate_hash": "4C28076061BBD43C2C38553D213CB8706DE4EDB5"
+          }
+        },
+        {
+          "client_id": "170416479952-s7oo60kpq1ocq71bjtem2ohv15eb8vg0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDJU3lB1TIFyYckitd9Uq7m8t0l6Fi0EOc"
+          "current_key": "AIzaSyD7tmIKyYbneuhRe17fibTjYkCYnj9Mwqs"
         }
       ],
       "services": {
         "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": "UA-2229911-9"
-          }
+          "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "170416479952-s7oo60kpq1ocq71bjtem2ohv15eb8vg0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
