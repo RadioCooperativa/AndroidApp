@@ -6,4 +6,15 @@
     <string name="excluye_programas">programas.cooperativa.cl</string>
     <string name="time_wait_check">500</string>
     <string name="time_check">500</string>
+    <string name="carga_tu_foto">Carga tu Foto</string>
+
+    <string name="camera_button_text">Capturar</string>
+    <string name="sign_in_prompt">Sign In to begin</string>
+    <string name="take_photo_prompt">Sube tu Foto</string>
+    <string name="download">Download</string>
+    <string name="sign_in_anonymously">Sign In</string>
+    <string name="rationale_storage">This sample reads images from your camera to demonstrate uploading.</string>
+    <string name="label_link">Link to Uploaded File</string>
+    <string name="label_download">Download File</string>
+
 </resources>

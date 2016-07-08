@@ -19,6 +19,7 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -47,6 +48,8 @@ public class MainActivity extends Activity {
     ImageButton buttonPlay;
     ImageButton buttonPause;
     ProgressBar pgrbarr;
+
+    Button carga_foto;
     //public String lk;
     //public static boolean flag = false;
 
@@ -80,6 +83,9 @@ public class MainActivity extends Activity {
         //Se define para agregar imagen SVG de barra en caso de telefonos con S.O > API 11
         if (android.os.Build.VERSION.SDK_INT>=11) {
             setContentView(R.layout.activity_main);
+
+
+
 
             buttonPlay = (ImageButton) findViewById(R.id.play);
             buttonPause = (ImageButton) findViewById(R.id.pause);
@@ -174,7 +180,20 @@ public class MainActivity extends Activity {
         } else {
             connectOld = true;
         }
+
+        carga_foto=(Button) findViewById(R.id.button_carga);
+        carga_foto.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(v.getContext(), CargaFoto.class));
+
+            }
+        });
+
     }
+
     public class MiTareaAsincrona extends AsyncTask<Void, Integer, Boolean> {
         @Override
         protected void onPreExecute() {
@@ -446,4 +465,5 @@ public class MainActivity extends Activity {
 
          }
     }
+
 }

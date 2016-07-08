@@ -4,10 +4,18 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/carga_tu_foto"
+        android:id="@+id/button_carga"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.04" />
+
     <WebView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.95"
+        android:layout_weight="0.50"
         android:id="@+id/webView"
         android:layout_alignParentBottom="true" />
 
