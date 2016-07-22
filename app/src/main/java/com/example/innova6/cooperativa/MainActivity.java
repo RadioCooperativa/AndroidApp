@@ -269,6 +269,7 @@ public class MainActivity extends Activity {
         super.onPause();
     }
     protected void onResume() {
+        mPlayer.setVolume(1,1);
           super.onResume();
     }
     protected void onDestroy() {
