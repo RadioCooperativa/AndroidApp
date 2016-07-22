@@ -37,7 +37,6 @@ import java.util.TimerTask;
 
 public class MainActivity extends Activity {
 
-
     Timer timer;
     boolean connectNew, connectOld;
     int TIME_WAIT_CHECK;//En milisegundos. Es el tiempo que pasará desde el inicio de la App para empezar a comprobar la
@@ -63,7 +62,6 @@ public class MainActivity extends Activity {
     private FirebaseAnalytics mFirebaseAnalytics;
 
     String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,11 +127,10 @@ public class MainActivity extends Activity {
             pgrbarr.setVisibility(View.INVISIBLE);
             //par.setVisibility(View.VISIBLE);
         }
-        /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
+        /************** Módulos de muestra de webview y validación de conectividad***************/
         mostrar_web();
         estaConectado();
-
-        /************** /Módulos de muestra de webview validación de conectividad y validación de versión app***************/
+        /************** /Módulos de muestra de webview validación de conectividad***************/
 
         //MediaPlayer mp = MediaPlayer.create(context, R.raw.sound_file_1);
         mPlayer = new MediaPlayer();
@@ -143,7 +140,6 @@ public class MainActivity extends Activity {
 
        // tarea2 = new MiTareaAsincrona_2();
        // tarea2.execute();
-
         //Bloque de codigo para el streaming al presionar play
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +160,6 @@ public class MainActivity extends Activity {
                 }
             }
         });
-
         // Se inicia el TimerTask (una tarea en segundo plano que se ejecutará cada cierto tiempo
         // mientras esté activa la aplicación).
         networkConnected nc = new networkConnected();
@@ -182,7 +177,6 @@ public class MainActivity extends Activity {
             connectOld = true;
         }
     }
-
     public class MiTareaAsincrona extends AsyncTask<Void, Integer, Boolean> {
         @Override
         protected void onPreExecute() {
@@ -203,7 +197,6 @@ public class MainActivity extends Activity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-
                 mPlayer.reset();
                 mPlayer.setDataSource(url);
                 mPlayer.prepare();
@@ -249,19 +242,15 @@ public class MainActivity extends Activity {
 
         final WebView myBrowser;
         myBrowser = (WebView)findViewById(R.id.webView);
-
         myBrowser.getSettings().setJavaScriptEnabled(true);
-
         myBrowser.setWebViewClient(new WebViewClient());
         myBrowser.setWebChromeClient(new WebChromeClient());
-
         myBrowser.setWebViewClient(new WebViewClientExternal());
 
        // myBrowser.getSettings().setDomStorageEnabled(true);
        // myBrowser.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
         myBrowser.loadUrl("http://m.cooperativa.cl");
-
     }
     @Override
     protected void onPause()
@@ -270,7 +259,7 @@ public class MainActivity extends Activity {
     }
     protected void onResume() {
         mPlayer.setVolume(1,1);
-          super.onResume();
+        super.onResume();
     }
     protected void onDestroy() {
         super.onDestroy();
@@ -279,7 +268,6 @@ public class MainActivity extends Activity {
             mPlayer = null;
         }
     }
-
     @Override
     public void onBackPressed() {
         final WebView webView;
@@ -465,7 +453,7 @@ public class MainActivity extends Activity {
                 estado = extras.getString(TelephonyManager.EXTRA_STATE);
                if (estado.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
                    mPlayer.setVolume(0,0);
-                   numero = extras.getString( TelephonyManager.EXTRA_INCOMING_NUMBER);
+                   numero = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
                 }
             }
             String info = estado + " " + numero;
