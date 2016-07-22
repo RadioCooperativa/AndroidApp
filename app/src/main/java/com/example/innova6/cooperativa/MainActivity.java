@@ -3,6 +3,7 @@ package com.example.innova6.cooperativa;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -42,8 +44,8 @@ public class MainActivity extends Activity {
     // conexión.
     int TIME_CHECK; // En milisegundos. Cada cuento tiempo revisará la conexión.
 
+    public static MediaPlayer mPlayer;
 
-    static MediaPlayer mPlayer;
     ImageButton buttonPlay;
     ImageButton buttonPause;
     ProgressBar pgrbarr;
@@ -61,6 +63,7 @@ public class MainActivity extends Activity {
     private FirebaseAnalytics mFirebaseAnalytics;
 
     String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +116,7 @@ public class MainActivity extends Activity {
             imageView_pause.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView_pause.setAdjustViewBounds(true);
             imageView_pause.setImageDrawable(homeSvg_pause.createPictureDrawable());
-            }else{
+            } else{
 
             setContentView(R.layout.activity_main_bajo);
 
@@ -129,9 +132,13 @@ public class MainActivity extends Activity {
         /************** Módulos de muestra de webview validación de conectividad y validación de versión app***************/
         mostrar_web();
         estaConectado();
+
         /************** /Módulos de muestra de webview validación de conectividad y validación de versión app***************/
 
+        //MediaPlayer mp = MediaPlayer.create(context, R.raw.sound_file_1);
         mPlayer = new MediaPlayer();
+
+        //para poder utilizar los botones de audio físicos
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
        // tarea2 = new MiTareaAsincrona_2();
@@ -175,6 +182,7 @@ public class MainActivity extends Activity {
             connectOld = true;
         }
     }
+
     public class MiTareaAsincrona extends AsyncTask<Void, Integer, Boolean> {
         @Override
         protected void onPreExecute() {
@@ -195,6 +203,7 @@ public class MainActivity extends Activity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
+
                 mPlayer.reset();
                 mPlayer.setDataSource(url);
                 mPlayer.prepare();
@@ -254,13 +263,13 @@ public class MainActivity extends Activity {
         myBrowser.loadUrl("http://m.cooperativa.cl");
 
     }
-    protected void onPause() {
-
+    @Override
+    protected void onPause()
+    {
         super.onPause();
     }
     protected void onResume() {
-
-        super.onResume();
+          super.onResume();
     }
     protected void onDestroy() {
         super.onDestroy();
@@ -396,7 +405,6 @@ public class MainActivity extends Activity {
 
     }
 
-
     /*Esta función es llamada desde mostrar_web, y permite abrir sitios externos.
     * Si está dentro de http o https, y si está dentro de las variables declaradas en el archivo
     * strings.xml (url_excluye_renvivo y url_excluye_programas )se abre con el navegador del SO por defecto,
@@ -419,8 +427,6 @@ public class MainActivity extends Activity {
                      Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                      view.getContext().startActivity(intent);
                      Log.i("Entra a if ","WebViewClientExternal_1");
-
-
 
                      return true;
 
@@ -446,4 +452,25 @@ public class MainActivity extends Activity {
 
          }
     }
+
+    public static class ReceptorLlamadas extends BroadcastReceiver {
+        String estado = "", numero = "";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Sacamos información del intent
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                estado = extras.getString(TelephonyManager.EXTRA_STATE);
+               if (estado.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+                   mPlayer.setVolume(0,0);
+                   numero = extras.getString( TelephonyManager.EXTRA_INCOMING_NUMBER);
+                }
+            }
+            String info = estado + " " + numero;
+            Log.d("ReceptorAnuncio", info + " intent=" + intent);
+        }
+
+    }
+
 }
