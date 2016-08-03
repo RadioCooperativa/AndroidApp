@@ -15,6 +15,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
@@ -132,7 +133,7 @@ public class MainActivity extends Activity {
         estaConectado();
         /************** /Módulos de muestra de webview validación de conectividad***************/
 
-        //MediaPlayer mp = MediaPlayer.create(context, R.raw.sound_file_1);
+
         mPlayer = new MediaPlayer();
 
         //para poder utilizar los botones de audio físicos
@@ -442,24 +443,43 @@ public class MainActivity extends Activity {
          }
     }
 
-    public static class ReceptorLlamadas extends BroadcastReceiver {
-        String estado = "", numero = "";
+   public class ReceptorLlamadas extends BroadcastReceiver {
+       @Override
+       public void onReceive(Context context, Intent intent) {
+           call(context);
+       }
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Sacamos información del intent
-            Bundle extras = intent.getExtras();
-            if (extras != null) {
-                estado = extras.getString(TelephonyManager.EXTRA_STATE);
-               if (estado.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
-                   mPlayer.setVolume(0,0);
-                   numero = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                }
-            }
-            String info = estado + " " + numero;
-            Log.d("ReceptorAnuncio", info + " intent=" + intent);
-        }
+       private void call(Context context) {
+           PhoneCallListener phoneListener = new PhoneCallListener();
+           TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+           telephonyManager.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
+       }
 
-    }
 
+       private class PhoneCallListener extends PhoneStateListener {
+           public boolean isPhoneCalling = false;
+           Boolean wasRinging = false;
+
+           @Override
+           public void onCallStateChanged(int state, String incomingNumber) {
+
+               if (TelephonyManager.CALL_STATE_RINGING == state) {
+                   // phone ringing
+                   //Aquí ya detectas que el teléfono esta recibiendo una llamada entrante
+               }
+
+               if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
+                   // active
+                   isPhoneCalling = true;
+               }
+
+               if (TelephonyManager.CALL_STATE_IDLE == state) {
+
+                   isPhoneCalling = false;
+               }
+
+           }
+       }
+   }
 }
+
