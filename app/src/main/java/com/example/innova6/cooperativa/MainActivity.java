@@ -115,7 +115,10 @@ public class MainActivity extends Activity {
             imageView_pause.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView_pause.setAdjustViewBounds(true);
             imageView_pause.setImageDrawable(homeSvg_pause.createPictureDrawable());
-            } else{
+
+        }
+        else
+        {
 
             setContentView(R.layout.activity_main_bajo);
 
@@ -133,9 +136,7 @@ public class MainActivity extends Activity {
         estaConectado();
         /************** /Módulos de muestra de webview validación de conectividad***************/
 
-
         mPlayer = new MediaPlayer();
-
         //para poder utilizar los botones de audio físicos
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
@@ -259,15 +260,16 @@ public class MainActivity extends Activity {
         super.onPause();
     }
     protected void onResume() {
+       // mPlayer.start();
         mPlayer.setVolume(1,1);
         super.onResume();
     }
     protected void onDestroy() {
         super.onDestroy();
-        if (mPlayer != null) {
+        /*if (mPlayer != null) {
             mPlayer.release();
             mPlayer = null;
-        }
+        }*/
     }
     @Override
     public void onBackPressed() {
@@ -284,6 +286,7 @@ public class MainActivity extends Activity {
                     .setCancelable(false)
                     .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            mPlayer.setVolume(0,0);
                             finish();
                         }
                     })
@@ -443,7 +446,7 @@ public class MainActivity extends Activity {
          }
     }
 
-   public class ReceptorLlamadas extends BroadcastReceiver {
+   public static class ReceptorLlamadas extends BroadcastReceiver {
        @Override
        public void onReceive(Context context, Intent intent) {
            call(context);
@@ -455,24 +458,24 @@ public class MainActivity extends Activity {
            telephonyManager.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
        }
 
-
        private class PhoneCallListener extends PhoneStateListener {
            public boolean isPhoneCalling = false;
            Boolean wasRinging = false;
 
            @Override
            public void onCallStateChanged(int state, String incomingNumber) {
-
                if (TelephonyManager.CALL_STATE_RINGING == state) {
                    // phone ringing
-                   //Aquí ya detectas que el teléfono esta recibiendo una llamada entrante
-               }
+                  //Aquí ya detectas que el teléfono esta recibiendo una llamada entrante
 
+               }
                if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
                    // active
                    isPhoneCalling = true;
+                   if (mPlayer != null && mPlayer.isPlaying()) {
+                       mPlayer.setVolume(0,0);
+                   }
                }
-
                if (TelephonyManager.CALL_STATE_IDLE == state) {
 
                    isPhoneCalling = false;
