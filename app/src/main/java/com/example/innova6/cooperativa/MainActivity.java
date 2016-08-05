@@ -472,8 +472,10 @@ public class MainActivity extends Activity {
                if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
                    // active
                    isPhoneCalling = true;
+
                    if (mPlayer != null && mPlayer.isPlaying()) {
-                       mPlayer.setVolume(0,0);
+                      mPlayer.start();
+                      mPlayer.setVolume(0,0);
                    }
                }
                if (TelephonyManager.CALL_STATE_IDLE == state) {
