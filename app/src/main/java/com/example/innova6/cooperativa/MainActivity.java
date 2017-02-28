@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    String url = "http://tunein.digitalproserver.com/cooperativa.mp3";
+    String url = "http://unlimited3-cl.dps.live/cooperativafm/aac/icecast.audio";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
