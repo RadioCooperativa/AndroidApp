@@ -63,6 +63,7 @@ public class MainActivity extends Activity {
     private FirebaseAnalytics mFirebaseAnalytics;
 
     String url = "http://unlimited3-cl.dps.live/cooperativafm/aac/icecast.audio";
+    int media_lenght = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +89,7 @@ public class MainActivity extends Activity {
             pgrbarr=(ProgressBar) findViewById(R.id.progressBar);
 
             buttonPause.setVisibility(View.INVISIBLE);
-            buttonPlay.setVisibility(View.VISIBLE);
+            buttonPlay.setVisibility(View.INVISIBLE);
 
             pgrbarr.setVisibility(View.INVISIBLE);
 
@@ -140,16 +141,19 @@ public class MainActivity extends Activity {
         //para poder utilizar los botones de audio físicos
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-       // tarea2 = new MiTareaAsincrona_2();
-       // tarea2.execute();
+        tarea2 = new MiTareaAsincrona_2();
+        tarea2.execute();
         //Bloque de codigo para el streaming al presionar play
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pgrbarr.setVisibility(View.VISIBLE);
+                mPlayer.setVolume(1,1);
                 buttonPlay.setVisibility(View.INVISIBLE);
-                tarea1 = new MiTareaAsincrona();
-                tarea1.execute();
+                buttonPause.setVisibility(View.VISIBLE);
+                mPlayer.start();
+
+
+
             }
         });
         //Bloque de codigo para el streaming al presionar pause
@@ -158,8 +162,13 @@ public class MainActivity extends Activity {
                 buttonPause.setVisibility(View.INVISIBLE);
                 buttonPlay.setVisibility(View.VISIBLE);
                 if (mPlayer != null && mPlayer.isPlaying()) {
-                    mPlayer.pause();
+
+                    //mPlayer.pause();
+                    mPlayer.setVolume(0,0);
+
                 }
+
+
             }
         });
         // Se inicia el TimerTask (una tarea en segundo plano que se ejecutará cada cierto tiempo
@@ -187,6 +196,7 @@ public class MainActivity extends Activity {
         protected void onPostExecute(Boolean aBoolean) {
             pgrbarr.setVisibility(View.INVISIBLE);
             buttonPause.setVisibility(View.VISIBLE);
+            buttonPlay.setVisibility(View.INVISIBLE);
         }
         @Override
         protected void onProgressUpdate(Integer... values) {
@@ -199,13 +209,16 @@ public class MainActivity extends Activity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                mPlayer.reset();
+                //mPlayer.reset();
                 mPlayer.setDataSource(url);
                 mPlayer.prepare();
+                mPlayer.setVolume(1,1);
                 mPlayer.start();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             return true;
         }
     }
@@ -215,9 +228,8 @@ public class MainActivity extends Activity {
         }
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            buttonPlay.setVisibility(View.INVISIBLE);
-            buttonPause.setVisibility(View.VISIBLE);
-            pgrbarr.setVisibility(View.INVISIBLE);
+            pgrbarr.setVisibility(View.VISIBLE);
+
         }
         @Override
         protected void onProgressUpdate(Integer... values) {
@@ -230,19 +242,34 @@ public class MainActivity extends Activity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                mPlayer.reset();
+               // mPlayer.reset();
                 mPlayer.setDataSource(url);
-                mPlayer.prepare();
-                mPlayer.start();
+                mPlayer.prepareAsync();
+               // mPlayer.start();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //mp3 will be started after completion of preparing...
+            mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+                @Override
+                public void onPrepared(MediaPlayer meplayer) {
+                    Log.i("Entra a onPrepared ","mPlayer.prepareAsync()");
+                     meplayer.setVolume(0,0);
+                     buttonPlay.setVisibility(View.VISIBLE);
+                     buttonPause.setVisibility(View.INVISIBLE);
+                     pgrbarr.setVisibility(View.INVISIBLE);
+                     meplayer.start();
+
+                }
+
+            });
             return true;
         }
     }
     private void mostrar_web() {
 
-        final WebView myBrowser;
+        WebView myBrowser;
         myBrowser = (WebView)findViewById(R.id.webView);
         myBrowser.getSettings().setJavaScriptEnabled(true);
         myBrowser.setWebViewClient(new WebViewClient());
@@ -476,6 +503,7 @@ public class MainActivity extends Activity {
                    if (mPlayer != null && mPlayer.isPlaying()) {
                       mPlayer.start();
                       mPlayer.setVolume(0,0);
+
                    }
                }
                if (TelephonyManager.CALL_STATE_IDLE == state) {
