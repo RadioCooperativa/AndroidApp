@@ -3,11 +3,13 @@ package com.example.innova6.cooperativa;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
@@ -64,6 +66,8 @@ public class MainActivity extends Activity {
 
     String url = "http://unlimited3-cl.dps.live/cooperativafm/aac/icecast.audio";
     int media_lenght = 0;
+
+    //private ProgressDialog dialog = new ProgressDialog(MainActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -270,16 +274,37 @@ public class MainActivity extends Activity {
     private void mostrar_web() {
 
         WebView myBrowser;
+
+        String url="http://m.cooperativa.cl";
+
         myBrowser = (WebView)findViewById(R.id.webView);
+
         myBrowser.getSettings().setJavaScriptEnabled(true);
         myBrowser.setWebViewClient(new WebViewClient());
         myBrowser.setWebChromeClient(new WebChromeClient());
         myBrowser.setWebViewClient(new WebViewClientExternal());
 
+        myBrowser.setWebViewClient(new WebViewClient(){
+        ProgressDialog prDialog;
+
+            @Override
+            public void onPageStarted (WebView view, String url, Bitmap favicon){
+
+                prDialog = ProgressDialog.show(MainActivity.this,null,"Cargando, Momento Por Favor");
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url){
+                prDialog.dismiss();
+                super.onPageFinished(view, url);
+                }
+        });
+        myBrowser.loadUrl(url);
+
        // myBrowser.getSettings().setDomStorageEnabled(true);
        // myBrowser.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-        myBrowser.loadUrl("http://m.cooperativa.cl");
     }
     @Override
     protected void onPause()
