@@ -273,16 +273,15 @@ public class MainActivity extends Activity {
     }
     private void mostrar_web() {
 
-        WebView myBrowser;
+        final WebView myBrowser;
 
         String url="http://m.cooperativa.cl";
 
         myBrowser = (WebView)findViewById(R.id.webView);
 
         myBrowser.getSettings().setJavaScriptEnabled(true);
-        myBrowser.setWebViewClient(new WebViewClient());
+        //myBrowser.setWebViewClient(new WebViewClient());
         myBrowser.setWebChromeClient(new WebChromeClient());
-        myBrowser.setWebViewClient(new WebViewClientExternal());
 
         myBrowser.setWebViewClient(new WebViewClient(){
         ProgressDialog prDialog;
@@ -290,13 +289,14 @@ public class MainActivity extends Activity {
             @Override
             public void onPageStarted (WebView view, String url, Bitmap favicon){
 
-                prDialog = ProgressDialog.show(MainActivity.this,null,"Cargando, Momento Por Favor");
+                prDialog = ProgressDialog.show(MainActivity.this,null,"Cargando");
                 super.onPageStarted(view, url, favicon);
             }
 
             @Override
             public void onPageFinished(WebView view, String url){
                 prDialog.dismiss();
+                myBrowser.setWebViewClient(new WebViewClientExternal());
                 super.onPageFinished(view, url);
                 }
         });
@@ -313,7 +313,8 @@ public class MainActivity extends Activity {
     }
     protected void onResume() {
        // mPlayer.start();
-        mPlayer.setVolume(1,1);
+        //mPlayer.setVolume(1,1);
+        Log.i("Acá parte solo","onResume");
         super.onResume();
     }
     protected void onDestroy() {
