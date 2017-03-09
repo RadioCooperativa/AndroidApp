@@ -4,7 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
         versionName '3.6.7.2'
         versionCode 3672
@@ -28,10 +28,15 @@ dependencies {
     compile files('libs/svg-android.jar')
     compile files('libs/svg2android.jar')
     // [START gms_compile]
-    compile 'com.google.android.gms:play-services-analytics:9.2.0'
+    compile 'com.google.android.gms:play-services-ads:9.8.0'
     // [END gms_compile]
-    compile 'com.google.firebase:firebase-core:9.2.0'
-    compile 'com.google.firebase:firebase-messaging:9.2.0'
+    compile 'com.google.firebase:firebase-core:9.6.1'
+    compile 'com.google.firebase:firebase-messaging:9.6.1'
+
+    compile 'com.longtailvideo.jwplayer:jwplayer-core:+'
+    compile 'com.longtailvideo.jwplayer:jwplayer-common:+'
+//	compile 'com.longtailvideo.jwplayer:jwplayer-ima:+'        // Only required if using IMA features
+    compile 'com.longtailvideo.jwplayer:jwplayer-chromecast:+' // Only required if using Chromecast
 }
 
 apply plugin: 'com.google.gms.google-services'
