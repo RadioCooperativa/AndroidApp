@@ -282,6 +282,7 @@ public class MainActivity extends Activity {
         myBrowser.getSettings().setJavaScriptEnabled(true);
         //myBrowser.setWebViewClient(new WebViewClient());
         myBrowser.setWebChromeClient(new WebChromeClient());
+        myBrowser.getSettings().setDomStorageEnabled(true); // Habilitar esta propiedad para poder reproducir los videos JWPlayer.
 
         myBrowser.setWebViewClient(new WebViewClient(){
         ProgressDialog prDialog;
