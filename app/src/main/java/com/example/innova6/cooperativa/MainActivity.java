@@ -303,9 +303,6 @@ public class MainActivity extends Activity {
         });
         myBrowser.loadUrl(url);
 
-       // myBrowser.getSettings().setDomStorageEnabled(true);
-       // myBrowser.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-
     }
     @Override
     protected void onPause()
@@ -313,17 +310,12 @@ public class MainActivity extends Activity {
         super.onPause();
     }
     protected void onResume() {
-       // mPlayer.start();
-        //mPlayer.setVolume(1,1);
-        Log.i("Acá parte solo","onResume");
+
         super.onResume();
     }
     protected void onDestroy() {
         super.onDestroy();
-        /*if (mPlayer != null) {
-            mPlayer.release();
-            mPlayer = null;
-        }*/
+
     }
     @Override
     public void onBackPressed() {
