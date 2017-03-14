@@ -9,13 +9,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -33,7 +30,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -47,6 +43,11 @@ public class MainActivity extends Activity {
     int TIME_CHECK; // En milisegundos. Cada cuento tiempo revisará la conexión.
 
     public static MediaPlayer mPlayer;
+   // public Reproductor reproduce = new Reproductor();
+
+    public static final String url = "http://unlimited3-cl.dps.live/cooperativafm/aac/icecast.audio";
+
+
 
     ImageButton buttonPlay;
     ImageButton buttonPause;
@@ -57,22 +58,27 @@ public class MainActivity extends Activity {
     //*******Declaración de las tareas ejecutadas en segundo plano*****//
 
     //tarea1-> inicialización del player al presionar play, ademas de trabajar con el progressbar
-    private MiTareaAsincrona tarea1;
+   // private MiTareaAsincrona tarea1;
 
     //tarea2-> inicialización del player al arrancar app
-    private MiTareaAsincrona_2 tarea2;
+    //private MiTareaAsincrona_2 tarea2;
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    String url = "http://unlimited3-cl.dps.live/cooperativafm/aac/icecast.audio";
+
     int media_lenght = 0;
 
     //private ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// evita que se gire la pantalla
+
+       // Abre_Intent();
 
         // Iniciamos constantes
         TIME_WAIT_CHECK = Integer.parseInt(getResources().getString(R.string.time_wait_check));
@@ -141,20 +147,22 @@ public class MainActivity extends Activity {
         estaConectado();
         /************** /Módulos de muestra de webview validación de conectividad***************/
 
-        mPlayer = new MediaPlayer();
+        //mPlayer = new MediaPlayer();
         //para poder utilizar los botones de audio físicos
-        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        //mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-        tarea2 = new MiTareaAsincrona_2();
-        tarea2.execute();
+      //  tarea2 = new MiTareaAsincrona_2();
+        //tarea2.execute();
+
+
         //Bloque de codigo para el streaming al presionar play
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer.setVolume(1,1);
+                //mPlayer.setVolume(1,1);
                 buttonPlay.setVisibility(View.INVISIBLE);
                 buttonPause.setVisibility(View.VISIBLE);
-                mPlayer.start();
+               // mPlayer.start();
 
 
 
@@ -165,12 +173,12 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 buttonPause.setVisibility(View.INVISIBLE);
                 buttonPlay.setVisibility(View.VISIBLE);
-                if (mPlayer != null && mPlayer.isPlaying()) {
+               // if (mPlayer != null && mPlayer.isPlaying()) {
 
                     //mPlayer.pause();
-                    mPlayer.setVolume(0,0);
+                 //   mPlayer.setVolume(0,0);
 
-                }
+                //}
 
 
             }
@@ -192,7 +200,15 @@ public class MainActivity extends Activity {
             connectOld = true;
         }
     }
-    public class MiTareaAsincrona extends AsyncTask<Void, Integer, Boolean> {
+
+    public void Abre_Intent(){
+
+        Intent intent = new Intent( getApplicationContext(), Reproductor.class );
+        intent.setAction( Reproductor.U_R_L );
+        startService( intent );
+    }
+
+    /*public class MiTareaAsincrona extends AsyncTask<Void, Integer, Boolean> {
         @Override
         protected void onPreExecute() {
         }
@@ -226,6 +242,7 @@ public class MainActivity extends Activity {
             return true;
         }
     }
+
     private class MiTareaAsincrona_2 extends AsyncTask<Void, Integer, Boolean> {
         @Override
         protected void onPreExecute() {
@@ -245,14 +262,14 @@ public class MainActivity extends Activity {
         }
         @Override
         protected Boolean doInBackground(Void... params) {
-            try {
+
                // mPlayer.reset();
-                mPlayer.setDataSource(url);
-                mPlayer.prepareAsync();
+                //mPlayer.setDataSource(url);
+                //mPlayer.prepareAsync();
+
+              //  reproduce.reproducir();
                // mPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
             //mp3 will be started after completion of preparing...
             mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 
@@ -270,7 +287,7 @@ public class MainActivity extends Activity {
             });
             return true;
         }
-    }
+    }*/
     private void mostrar_web() {
 
         final WebView myBrowser;
@@ -287,12 +304,12 @@ public class MainActivity extends Activity {
         myBrowser.setWebViewClient(new WebViewClient(){
         ProgressDialog prDialog;
 
-            @Override
+            /*@Override
             public void onPageStarted (WebView view, String url, Bitmap favicon){
 
                 prDialog = ProgressDialog.show(MainActivity.this,null,"Cargando");
                 super.onPageStarted(view, url, favicon);
-            }
+            }*/
 
             @Override
             public void onPageFinished(WebView view, String url){
@@ -308,13 +325,33 @@ public class MainActivity extends Activity {
     protected void onPause()
     {
         super.onPause();
+        Intent intent = new Intent( getApplicationContext(), MediaPlayerService.class );
+        intent.setAction( MediaPlayerService.ACTION_PLAY );
+        //startService( intent );
+        startService(intent);
+
+
     }
     protected void onResume() {
 
         super.onResume();
+        //llamaIntent();
+
+
+    }
+    public void llamaIntent(){
+        Intent intent = new Intent( getApplicationContext(), MediaPlayerService.class );
+       intent.setAction( MediaPlayerService.ACTION_PLAY );
+
+        //startService( intent );
+        stopService(intent);
+       // finish();
+        Log.i("onResume","entra");
+
     }
     protected void onDestroy() {
-        super.onDestroy();
+
+       super.onDestroy();
 
     }
     @Override
@@ -332,7 +369,7 @@ public class MainActivity extends Activity {
                     .setCancelable(false)
                     .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            mPlayer.setVolume(0,0);
+                          //  mPlayer.setVolume(0,0);
                             finish();
                         }
                     })
@@ -519,11 +556,11 @@ public class MainActivity extends Activity {
                    // active
                    isPhoneCalling = true;
 
-                   if (mPlayer != null && mPlayer.isPlaying()) {
+                  /* if (mPlayer != null && mPlayer.isPlaying()) {
                       mPlayer.start();
                       mPlayer.setVolume(0,0);
 
-                   }
+                   }*/
                }
                if (TelephonyManager.CALL_STATE_IDLE == state) {
 
