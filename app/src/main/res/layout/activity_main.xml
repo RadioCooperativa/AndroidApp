@@ -23,12 +23,6 @@
             android:layout_height="match_parent"
             android:id="@+id/framelayout">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.10"
-                android:id="@+id/binferior" />
-
             <ImageButton
                 android:layout_width="25dp"
                 android:layout_height="35dp"
@@ -56,6 +50,12 @@
                 android:color="#145899"
                 android:layout_marginTop="5dp"
                 android:visibility="visible" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.10"
+                android:id="@+id/binferior" />
 
         </FrameLayout>
 
